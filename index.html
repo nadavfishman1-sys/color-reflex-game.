@@ -214,15 +214,25 @@
 
   .ship-deco{
     position:absolute;
-    width:28px;
-    height:24px;
+    width:32px;
+    height:28px;
     pointer-events:none;
+  }
+  .ship-tilt{
+    width:100%;
+    height:100%;
+    transform-origin:50% 60%;
   }
   .ship-deco .hull{ fill:var(--ship); }
   .ship-deco .hull-dark{ fill:var(--ship-dark); }
-  .ship-right{ right:10px; top:14%; }
-  .ship-left-1{ left:8px; top:18%; }
-  .ship-left-2{ left:8px; top:60%; }
+  .ship-deco .cockpit{ fill:var(--blue-light); }
+  .ship-deco .engine{ fill:var(--laser); }
+  .ship-right{ right:6px; top:12%; }
+  .ship-right .ship-tilt{ transform:rotate(-16deg); }
+  .ship-left-1{ left:4px; top:17%; }
+  .ship-left-1 .ship-tilt{ transform:rotate(22deg); }
+  .ship-left-2{ left:4px; top:59%; }
+  .ship-left-2 .ship-tilt{ transform:rotate(-9deg); }
 
   .ship-bolt{
     position:absolute;
@@ -388,39 +398,54 @@
 
     <div class="screen" id="startScreen">
       <div class="ship-deco ship-right" aria-hidden="true">
-        <svg viewBox="0 0 7 6" shape-rendering="crispEdges">
-          <rect class="hull" x="3" y="0" width="1" height="1"/>
-          <rect class="hull" x="2" y="1" width="3" height="1"/>
-          <rect class="hull-dark" x="2" y="2" width="3" height="1"/>
-          <rect class="hull" x="1" y="3" width="5" height="1"/>
-          <rect class="hull-dark" x="0" y="4" width="7" height="1"/>
-          <rect class="hull" x="1" y="5" width="1" height="1"/>
-          <rect class="hull" x="5" y="5" width="1" height="1"/>
-        </svg>
+        <div class="ship-tilt">
+          <svg viewBox="0 0 9 8" shape-rendering="crispEdges">
+            <rect class="hull" x="4" y="0" width="1" height="1"/>
+            <rect class="hull" x="3" y="1" width="3" height="1"/>
+            <rect class="cockpit" x="3" y="2" width="3" height="1"/>
+            <rect class="hull" x="2" y="3" width="5" height="1"/>
+            <rect class="hull-dark" x="1" y="4" width="7" height="1"/>
+            <rect class="hull" x="0" y="5" width="9" height="1"/>
+            <rect class="hull-dark" x="1" y="6" width="1" height="1"/>
+            <rect class="hull-dark" x="7" y="6" width="1" height="1"/>
+            <rect class="engine" x="3" y="7" width="1" height="1"/>
+            <rect class="engine" x="5" y="7" width="1" height="1"/>
+          </svg>
+        </div>
         <span class="ship-bolt" style="animation-delay:.1s"></span>
       </div>
       <div class="ship-deco ship-left-1" aria-hidden="true">
-        <svg viewBox="0 0 7 6" shape-rendering="crispEdges">
-          <rect class="hull" x="3" y="0" width="1" height="1"/>
-          <rect class="hull" x="2" y="1" width="3" height="1"/>
-          <rect class="hull-dark" x="2" y="2" width="3" height="1"/>
-          <rect class="hull" x="1" y="3" width="5" height="1"/>
-          <rect class="hull-dark" x="0" y="4" width="7" height="1"/>
-          <rect class="hull" x="1" y="5" width="1" height="1"/>
-          <rect class="hull" x="5" y="5" width="1" height="1"/>
-        </svg>
+        <div class="ship-tilt">
+          <svg viewBox="0 0 9 8" shape-rendering="crispEdges">
+            <rect class="hull" x="4" y="0" width="1" height="1"/>
+            <rect class="hull" x="3" y="1" width="3" height="1"/>
+            <rect class="cockpit" x="3" y="2" width="3" height="1"/>
+            <rect class="hull" x="2" y="3" width="5" height="1"/>
+            <rect class="hull-dark" x="1" y="4" width="7" height="1"/>
+            <rect class="hull" x="0" y="5" width="9" height="1"/>
+            <rect class="hull-dark" x="1" y="6" width="1" height="1"/>
+            <rect class="hull-dark" x="7" y="6" width="1" height="1"/>
+            <rect class="engine" x="3" y="7" width="1" height="1"/>
+            <rect class="engine" x="5" y="7" width="1" height="1"/>
+          </svg>
+        </div>
         <span class="ship-bolt" style="animation-delay:.6s"></span>
       </div>
       <div class="ship-deco ship-left-2" aria-hidden="true">
-        <svg viewBox="0 0 7 6" shape-rendering="crispEdges">
-          <rect class="hull" x="3" y="0" width="1" height="1"/>
-          <rect class="hull" x="2" y="1" width="3" height="1"/>
-          <rect class="hull-dark" x="2" y="2" width="3" height="1"/>
-          <rect class="hull" x="1" y="3" width="5" height="1"/>
-          <rect class="hull-dark" x="0" y="4" width="7" height="1"/>
-          <rect class="hull" x="1" y="5" width="1" height="1"/>
-          <rect class="hull" x="5" y="5" width="1" height="1"/>
-        </svg>
+        <div class="ship-tilt">
+          <svg viewBox="0 0 9 8" shape-rendering="crispEdges">
+            <rect class="hull" x="4" y="0" width="1" height="1"/>
+            <rect class="hull" x="3" y="1" width="3" height="1"/>
+            <rect class="cockpit" x="3" y="2" width="3" height="1"/>
+            <rect class="hull" x="2" y="3" width="5" height="1"/>
+            <rect class="hull-dark" x="1" y="4" width="7" height="1"/>
+            <rect class="hull" x="0" y="5" width="9" height="1"/>
+            <rect class="hull-dark" x="1" y="6" width="1" height="1"/>
+            <rect class="hull-dark" x="7" y="6" width="1" height="1"/>
+            <rect class="engine" x="3" y="7" width="1" height="1"/>
+            <rect class="engine" x="5" y="7" width="1" height="1"/>
+          </svg>
+        </div>
         <span class="ship-bolt" style="animation-delay:1.05s"></span>
       </div>
       <div class="logo">
