@@ -214,8 +214,8 @@
 
   .ship-deco{
     position:absolute;
-    width:32px;
-    height:28px;
+    width:54px;
+    height:37px;
     pointer-events:none;
   }
   .ship-tilt{
@@ -227,12 +227,13 @@
   .ship-deco .hull-dark{ fill:var(--ship-dark); }
   .ship-deco .cockpit{ fill:var(--blue-light); }
   .ship-deco .engine{ fill:var(--laser); }
-  .ship-right{ right:6px; top:12%; }
-  .ship-right .ship-tilt{ transform:rotate(-16deg); }
-  .ship-left-1{ left:4px; top:17%; }
-  .ship-left-1 .ship-tilt{ transform:rotate(22deg); }
-  .ship-left-2{ left:4px; top:59%; }
-  .ship-left-2 .ship-tilt{ transform:rotate(-9deg); }
+  .ship-deco .accent{ fill:var(--red); }
+  .ship-right{ right:2px; top:10%; }
+  .ship-right .ship-tilt{ transform:rotate(-14deg); }
+  .ship-left-1{ left:0px; top:15%; }
+  .ship-left-1 .ship-tilt{ transform:rotate(18deg); }
+  .ship-left-2{ left:0px; top:58%; }
+  .ship-left-2 .ship-tilt{ transform:rotate(-8deg); }
 
   .ship-bolt{
     position:absolute;
@@ -399,51 +400,66 @@
     <div class="screen" id="startScreen">
       <div class="ship-deco ship-right" aria-hidden="true">
         <div class="ship-tilt">
-          <svg viewBox="0 0 9 8" shape-rendering="crispEdges">
-            <rect class="hull" x="4" y="0" width="1" height="1"/>
-            <rect class="hull" x="3" y="1" width="3" height="1"/>
-            <rect class="cockpit" x="3" y="2" width="3" height="1"/>
-            <rect class="hull" x="2" y="3" width="5" height="1"/>
-            <rect class="hull-dark" x="1" y="4" width="7" height="1"/>
-            <rect class="hull" x="0" y="5" width="9" height="1"/>
-            <rect class="hull-dark" x="1" y="6" width="1" height="1"/>
-            <rect class="hull-dark" x="7" y="6" width="1" height="1"/>
-            <rect class="engine" x="3" y="7" width="1" height="1"/>
-            <rect class="engine" x="5" y="7" width="1" height="1"/>
+          <svg viewBox="0 0 13 9" shape-rendering="crispEdges">
+            <rect class="hull" x="6" y="0" width="1" height="1"/>
+            <rect class="hull" x="5" y="1" width="3" height="1"/>
+            <rect class="cockpit" x="5" y="2" width="3" height="1"/>
+            <rect class="hull" x="4" y="3" width="5" height="1"/>
+            <rect class="hull-dark" x="3" y="4" width="7" height="1"/>
+            <rect class="hull" x="0" y="5" width="13" height="1"/>
+            <rect class="accent" x="0" y="6" width="2" height="1"/>
+            <rect class="hull-dark" x="2" y="6" width="3" height="1"/>
+            <rect class="hull-dark" x="5" y="6" width="3" height="1"/>
+            <rect class="hull-dark" x="8" y="6" width="3" height="1"/>
+            <rect class="accent" x="11" y="6" width="2" height="1"/>
+            <rect class="accent" x="0" y="7" width="2" height="1"/>
+            <rect class="accent" x="11" y="7" width="2" height="1"/>
+            <rect class="engine" x="5" y="8" width="1" height="1"/>
+            <rect class="engine" x="7" y="8" width="1" height="1"/>
           </svg>
         </div>
         <span class="ship-bolt" style="animation-delay:.1s"></span>
       </div>
       <div class="ship-deco ship-left-1" aria-hidden="true">
         <div class="ship-tilt">
-          <svg viewBox="0 0 9 8" shape-rendering="crispEdges">
-            <rect class="hull" x="4" y="0" width="1" height="1"/>
-            <rect class="hull" x="3" y="1" width="3" height="1"/>
-            <rect class="cockpit" x="3" y="2" width="3" height="1"/>
-            <rect class="hull" x="2" y="3" width="5" height="1"/>
-            <rect class="hull-dark" x="1" y="4" width="7" height="1"/>
-            <rect class="hull" x="0" y="5" width="9" height="1"/>
-            <rect class="hull-dark" x="1" y="6" width="1" height="1"/>
-            <rect class="hull-dark" x="7" y="6" width="1" height="1"/>
-            <rect class="engine" x="3" y="7" width="1" height="1"/>
-            <rect class="engine" x="5" y="7" width="1" height="1"/>
+          <svg viewBox="0 0 13 9" shape-rendering="crispEdges">
+            <rect class="hull" x="6" y="0" width="1" height="1"/>
+            <rect class="hull" x="5" y="1" width="3" height="1"/>
+            <rect class="cockpit" x="5" y="2" width="3" height="1"/>
+            <rect class="hull" x="4" y="3" width="5" height="1"/>
+            <rect class="hull-dark" x="3" y="4" width="7" height="1"/>
+            <rect class="hull" x="0" y="5" width="13" height="1"/>
+            <rect class="accent" x="0" y="6" width="2" height="1"/>
+            <rect class="hull-dark" x="2" y="6" width="3" height="1"/>
+            <rect class="hull-dark" x="5" y="6" width="3" height="1"/>
+            <rect class="hull-dark" x="8" y="6" width="3" height="1"/>
+            <rect class="accent" x="11" y="6" width="2" height="1"/>
+            <rect class="accent" x="0" y="7" width="2" height="1"/>
+            <rect class="accent" x="11" y="7" width="2" height="1"/>
+            <rect class="engine" x="5" y="8" width="1" height="1"/>
+            <rect class="engine" x="7" y="8" width="1" height="1"/>
           </svg>
         </div>
         <span class="ship-bolt" style="animation-delay:.6s"></span>
       </div>
       <div class="ship-deco ship-left-2" aria-hidden="true">
         <div class="ship-tilt">
-          <svg viewBox="0 0 9 8" shape-rendering="crispEdges">
-            <rect class="hull" x="4" y="0" width="1" height="1"/>
-            <rect class="hull" x="3" y="1" width="3" height="1"/>
-            <rect class="cockpit" x="3" y="2" width="3" height="1"/>
-            <rect class="hull" x="2" y="3" width="5" height="1"/>
-            <rect class="hull-dark" x="1" y="4" width="7" height="1"/>
-            <rect class="hull" x="0" y="5" width="9" height="1"/>
-            <rect class="hull-dark" x="1" y="6" width="1" height="1"/>
-            <rect class="hull-dark" x="7" y="6" width="1" height="1"/>
-            <rect class="engine" x="3" y="7" width="1" height="1"/>
-            <rect class="engine" x="5" y="7" width="1" height="1"/>
+          <svg viewBox="0 0 13 9" shape-rendering="crispEdges">
+            <rect class="hull" x="6" y="0" width="1" height="1"/>
+            <rect class="hull" x="5" y="1" width="3" height="1"/>
+            <rect class="cockpit" x="5" y="2" width="3" height="1"/>
+            <rect class="hull" x="4" y="3" width="5" height="1"/>
+            <rect class="hull-dark" x="3" y="4" width="7" height="1"/>
+            <rect class="hull" x="0" y="5" width="13" height="1"/>
+            <rect class="accent" x="0" y="6" width="2" height="1"/>
+            <rect class="hull-dark" x="2" y="6" width="3" height="1"/>
+            <rect class="hull-dark" x="5" y="6" width="3" height="1"/>
+            <rect class="hull-dark" x="8" y="6" width="3" height="1"/>
+            <rect class="accent" x="11" y="6" width="2" height="1"/>
+            <rect class="accent" x="0" y="7" width="2" height="1"/>
+            <rect class="accent" x="11" y="7" width="2" height="1"/>
+            <rect class="engine" x="5" y="8" width="1" height="1"/>
+            <rect class="engine" x="7" y="8" width="1" height="1"/>
           </svg>
         </div>
         <span class="ship-bolt" style="animation-delay:1.05s"></span>
@@ -524,10 +540,10 @@
   var COLOR_GLOW = { red: 'rgba(239,59,74,0.55)', blue: 'rgba(59,123,255,0.55)' };
 
   var DIFFICULTIES = {
-    easy:   { base: 110, max: 320, accel: 3.0 },
-    normal: { base: 150, max: 480, accel: 5.2 },
-    hard:   { base: 190, max: 620, accel: 7.6 },
-    insane: { base: 230, max: 760, accel: 10.4 }
+    easy:   { base: 130, max: 370, accel: 3.5 },
+    normal: { base: 175, max: 550, accel: 6.0 },
+    hard:   { base: 220, max: 710, accel: 8.7 },
+    insane: { base: 270, max: 880, accel: 12.0 }
   };
   var currentDifficulty = DIFFICULTIES.normal;
 
@@ -597,6 +613,7 @@
   var bgStreaks = [];
   var scrollOffset, elapsed, score, speed;
   var stormGroupsLeft, stormNextScore;
+  var lastBarrierColor = null;
   var shakeT, flashT, lastTs;
 
   function ballScreenY(){ return H * 0.32; }
@@ -630,9 +647,18 @@
 
   function makeBarrier(worldY){
     var fake = elapsed > 14 && Math.random() < 0.12;
+    var color;
+    if (lastBarrierColor === null) {
+      color = Math.random() < 0.5 ? RED : BLUE;
+    } else if (Math.random() < 0.72) {
+      color = lastBarrierColor === RED ? BLUE : RED;
+    } else {
+      color = lastBarrierColor;
+    }
+    lastBarrierColor = color;
     return {
       worldY: worldY,
-      color: Math.random() < 0.5 ? RED : BLUE,
+      color: color,
       passed: false,
       fake: fake,
       flipped: false,
@@ -843,6 +869,7 @@
     flashT = 0;
     flashEl.style.opacity = 0;
     scoreVal.textContent = '0';
+    lastBarrierColor = null;
 
     bgStreaks = [];
     for (var i = 0; i < 18; i++) {
