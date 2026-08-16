@@ -307,11 +307,6 @@
     overflow:hidden;
   }
 
-  .level-select{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-  }
   .arcade-btn-face::before{
     content:"";
     position:absolute;
@@ -482,12 +477,9 @@
         <rect class="b" x="4" y="7" width="2" height="1"/>
       </svg>
       <p class="lede">The ball never stops falling. Tap <em>to switch its color</em> — and only cross barriers that match.</p>
-      <div class="level-select" id="levelSelect">
-        <button class="arcade-btn" data-diff="easy"><span class="arcade-btn-face"><span class="arcade-btn-label">EASY</span></span></button>
-        <button class="arcade-btn" data-diff="normal"><span class="arcade-btn-face"><span class="arcade-btn-label">NORMAL</span></span></button>
-        <button class="arcade-btn" data-diff="hard"><span class="arcade-btn-face"><span class="arcade-btn-label">HARD</span></span></button>
-        <button class="arcade-btn" data-diff="insane"><span class="arcade-btn-face"><span class="arcade-btn-label">INSANE</span></span></button>
-      </div>
+      <button class="arcade-btn" id="startBtn" aria-label="Start game">
+        <span class="arcade-btn-face"><span class="arcade-btn-label">PLAY</span></span>
+      </button>
       <div class="hint-row"><span><span class="k">Tap</span> = switch color</span><span><span class="k">Miss</span> = game over</span></div>
     </div>
 
@@ -512,7 +504,7 @@
   var phone = document.getElementById('phone');
   var startScreen = document.getElementById('startScreen');
   var overScreen = document.getElementById('overScreen');
-  var levelSelect = document.getElementById('levelSelect');
+  var startBtn = document.getElementById('startBtn');
   var retryBtn = document.getElementById('retryBtn');
   var scoreVal = document.getElementById('scoreVal');
   var bestVal = document.getElementById('bestVal');
@@ -539,13 +531,7 @@
   var COLOR_HEX = { red: '#ef3b4a', blue: '#3b7bff' };
   var COLOR_GLOW = { red: 'rgba(239,59,74,0.55)', blue: 'rgba(59,123,255,0.55)' };
 
-  var DIFFICULTIES = {
-    easy:   { base: 130, max: 370, accel: 3.5 },
-    normal: { base: 175, max: 550, accel: 6.0 },
-    hard:   { base: 220, max: 710, accel: 8.7 },
-    insane: { base: 270, max: 880, accel: 12.0 }
-  };
-  var currentDifficulty = DIFFICULTIES.normal;
+  var SPEED_BASE = 175, SPEED_MAX = 550, SPEED_ACCEL = 6.0;
 
   function rand(a, b){ return a + Math.random() * (b - a); }
   function randInt(a, b){ return Math.floor(rand(a, b + 1)); }
@@ -689,7 +675,7 @@
 
   function update(dt){
     elapsed += dt;
-    speed = Math.min(currentDifficulty.max, currentDifficulty.base + elapsed * currentDifficulty.accel);
+    speed = Math.min(SPEED_MAX, SPEED_BASE + elapsed * SPEED_ACCEL);
     scrollOffset += speed * dt;
 
     if (ball.switchT < 1) ball.switchT = Math.min(1, ball.switchT + dt * 7);
@@ -837,8 +823,7 @@
     requestAnimationFrame(loop);
   }
 
-  function startGame(diffKey){
-    currentDifficulty = DIFFICULTIES[diffKey] || DIFFICULTIES.normal;
+  function startGame(){
     ensureAudio();
     resize();
     initGameReal();
@@ -862,7 +847,7 @@
     scrollOffset = 0;
     elapsed = 0;
     score = 0;
-    speed = currentDifficulty.base;
+    speed = SPEED_BASE;
     stormGroupsLeft = 0;
     stormNextScore = 12;
     shakeT = 0;
@@ -892,11 +877,9 @@
     }
   });
 
-  levelSelect.addEventListener('click', function(e){
-    var btn = e.target.closest('.arcade-btn');
-    if (!btn) return;
+  startBtn.addEventListener('click', function(e){
     e.stopPropagation();
-    startGame(btn.getAttribute('data-diff'));
+    startGame();
   });
   retryBtn.addEventListener('click', function(e){
     e.stopPropagation();
