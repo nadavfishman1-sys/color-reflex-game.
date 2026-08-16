@@ -31,6 +31,9 @@
     --glow-blue:rgba(59,123,255,0.5);
     --font-pixel:'Press Start 2P', monospace;
     --hex: polygon(6% 0%, 94% 0%, 100% 50%, 94% 100%, 6% 100%, 0% 50%);
+    --ship:#7a8290;
+    --ship-dark:#4b5160;
+    --laser:#bff3ff;
   }
 
   *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
@@ -186,19 +189,19 @@
   }
   .logo-line{
     font-family: var(--font-pixel);
-    font-size: 24px;
+    font-size: 30px;
     line-height:1.3;
     text-wrap: balance;
   }
-  .logo-red{ color:var(--red); text-shadow:3px 3px 0 var(--red-dark); }
-  .logo-blue{ color:var(--blue); text-shadow:3px 3px 0 var(--blue-dark); }
+  .logo-red{ color:var(--red); text-shadow:4px 4px 0 var(--red-dark); }
+  .logo-blue{ color:var(--blue); text-shadow:4px 4px 0 var(--blue-dark); }
 
   .logo-badge{
     font-family: var(--font-pixel);
-    font-size:9px;
+    font-size:12px;
     letter-spacing:3px;
     color: var(--ink-dim);
-    margin:-6px 0 0;
+    margin:-4px 0 0;
   }
 
   .ball-mark{
@@ -208,6 +211,37 @@
   }
   .ball-mark .r{ fill:var(--red); }
   .ball-mark .b{ fill:var(--blue); }
+
+  .ship-deco{
+    position:absolute;
+    width:28px;
+    height:24px;
+    pointer-events:none;
+  }
+  .ship-deco .hull{ fill:var(--ship); }
+  .ship-deco .hull-dark{ fill:var(--ship-dark); }
+  .ship-right{ right:10px; top:14%; }
+  .ship-left-1{ left:8px; top:18%; }
+  .ship-left-2{ left:8px; top:60%; }
+
+  .ship-bolt{
+    position:absolute;
+    left:50%;
+    bottom:100%;
+    width:2px;
+    height:7px;
+    margin-left:-1px;
+    background:var(--laser);
+    box-shadow:0 0 4px var(--laser);
+    opacity:0;
+    animation: shoot 1.6s ease-out infinite;
+  }
+  @keyframes shoot{
+    0%{ transform:translateY(0); opacity:0; }
+    8%{ opacity:1; }
+    68%{ opacity:1; }
+    100%{ transform:translateY(-46px); opacity:0; }
+  }
 
   .lede{
     font-size:14px;
@@ -333,6 +367,7 @@
     .ball-mark{ animation:none; }
     .screen{ transition:none; }
     .arcade-btn, .arcade-btn::after{ transition:none; }
+    .ship-bolt{ animation:none; opacity:0; }
   }
 </style>
 </head>
@@ -352,6 +387,42 @@
     <div class="pressure-banner" id="pressureBanner">PRESSURE MODE</div>
 
     <div class="screen" id="startScreen">
+      <div class="ship-deco ship-right" aria-hidden="true">
+        <svg viewBox="0 0 7 6" shape-rendering="crispEdges">
+          <rect class="hull" x="3" y="0" width="1" height="1"/>
+          <rect class="hull" x="2" y="1" width="3" height="1"/>
+          <rect class="hull-dark" x="2" y="2" width="3" height="1"/>
+          <rect class="hull" x="1" y="3" width="5" height="1"/>
+          <rect class="hull-dark" x="0" y="4" width="7" height="1"/>
+          <rect class="hull" x="1" y="5" width="1" height="1"/>
+          <rect class="hull" x="5" y="5" width="1" height="1"/>
+        </svg>
+        <span class="ship-bolt" style="animation-delay:.1s"></span>
+      </div>
+      <div class="ship-deco ship-left-1" aria-hidden="true">
+        <svg viewBox="0 0 7 6" shape-rendering="crispEdges">
+          <rect class="hull" x="3" y="0" width="1" height="1"/>
+          <rect class="hull" x="2" y="1" width="3" height="1"/>
+          <rect class="hull-dark" x="2" y="2" width="3" height="1"/>
+          <rect class="hull" x="1" y="3" width="5" height="1"/>
+          <rect class="hull-dark" x="0" y="4" width="7" height="1"/>
+          <rect class="hull" x="1" y="5" width="1" height="1"/>
+          <rect class="hull" x="5" y="5" width="1" height="1"/>
+        </svg>
+        <span class="ship-bolt" style="animation-delay:.6s"></span>
+      </div>
+      <div class="ship-deco ship-left-2" aria-hidden="true">
+        <svg viewBox="0 0 7 6" shape-rendering="crispEdges">
+          <rect class="hull" x="3" y="0" width="1" height="1"/>
+          <rect class="hull" x="2" y="1" width="3" height="1"/>
+          <rect class="hull-dark" x="2" y="2" width="3" height="1"/>
+          <rect class="hull" x="1" y="3" width="5" height="1"/>
+          <rect class="hull-dark" x="0" y="4" width="7" height="1"/>
+          <rect class="hull" x="1" y="5" width="1" height="1"/>
+          <rect class="hull" x="5" y="5" width="1" height="1"/>
+        </svg>
+        <span class="ship-bolt" style="animation-delay:1.05s"></span>
+      </div>
       <div class="logo">
         <span class="logo-line logo-red">COLOR</span>
         <span class="logo-line logo-blue">REFLEX</span>
