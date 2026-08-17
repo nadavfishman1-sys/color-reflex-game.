@@ -236,8 +236,8 @@
 
   .ship-deco{
     position:absolute;
-    width:54px;
-    height:37px;
+    width:56px;
+    height:52px;
     pointer-events:none;
   }
   .ship-tilt{
@@ -403,15 +403,6 @@
   }
   .new-best[hidden]{ display:none; }
 
-  .hint-row{
-    display:flex;
-    gap:16px;
-    color: var(--ink-dim);
-    font-size:12px;
-    font-weight:600;
-  }
-  .hint-row .k{ color:var(--ink); }
-
   @media (prefers-reduced-motion: reduce){
     .ball-mark{ animation:none; }
     .screen{ transition:none; }
@@ -474,7 +465,7 @@
     <div class="screen" id="startScreen">
       <div class="ship-deco ship-right" aria-hidden="true">
         <div class="ship-tilt">
-          <svg viewBox="0 0 13 9" shape-rendering="crispEdges">
+          <svg viewBox="0 0 13 12" shape-rendering="crispEdges">
             <rect class="hull" x="6" y="0" width="1" height="1"/>
             <rect class="hull" x="5" y="1" width="3" height="1"/>
             <rect class="cockpit" x="5" y="2" width="3" height="1"/>
@@ -482,21 +473,25 @@
             <rect class="hull-dark" x="3" y="4" width="7" height="1"/>
             <rect class="hull" x="0" y="5" width="13" height="1"/>
             <rect class="accent" x="0" y="6" width="2" height="1"/>
-            <rect class="hull-dark" x="2" y="6" width="3" height="1"/>
-            <rect class="hull-dark" x="5" y="6" width="3" height="1"/>
-            <rect class="hull-dark" x="8" y="6" width="3" height="1"/>
+            <rect class="hull" x="2" y="6" width="9" height="1"/>
             <rect class="accent" x="11" y="6" width="2" height="1"/>
-            <rect class="accent" x="0" y="7" width="2" height="1"/>
-            <rect class="accent" x="11" y="7" width="2" height="1"/>
-            <rect class="engine" x="5" y="8" width="1" height="1"/>
-            <rect class="engine" x="7" y="8" width="1" height="1"/>
+            <rect class="hull-dark" x="4" y="7" width="5" height="1"/>
+            <rect class="hull" x="4" y="8" width="5" height="1"/>
+            <rect class="accent" x="3" y="9" width="1" height="1"/>
+            <rect class="hull" x="4" y="9" width="5" height="1"/>
+            <rect class="accent" x="9" y="9" width="1" height="1"/>
+            <rect class="accent" x="2" y="10" width="2" height="1"/>
+            <rect class="hull-dark" x="5" y="10" width="3" height="1"/>
+            <rect class="accent" x="9" y="10" width="2" height="1"/>
+            <rect class="engine" x="5" y="11" width="1" height="1"/>
+            <rect class="engine" x="7" y="11" width="1" height="1"/>
           </svg>
         </div>
         <span class="ship-bolt" style="animation-delay:.1s"></span>
       </div>
       <div class="ship-deco ship-left-1" aria-hidden="true">
         <div class="ship-tilt">
-          <svg viewBox="0 0 13 9" shape-rendering="crispEdges">
+          <svg viewBox="0 0 13 12" shape-rendering="crispEdges">
             <rect class="hull" x="6" y="0" width="1" height="1"/>
             <rect class="hull" x="5" y="1" width="3" height="1"/>
             <rect class="cockpit" x="5" y="2" width="3" height="1"/>
@@ -504,21 +499,25 @@
             <rect class="hull-dark" x="3" y="4" width="7" height="1"/>
             <rect class="hull" x="0" y="5" width="13" height="1"/>
             <rect class="accent" x="0" y="6" width="2" height="1"/>
-            <rect class="hull-dark" x="2" y="6" width="3" height="1"/>
-            <rect class="hull-dark" x="5" y="6" width="3" height="1"/>
-            <rect class="hull-dark" x="8" y="6" width="3" height="1"/>
+            <rect class="hull" x="2" y="6" width="9" height="1"/>
             <rect class="accent" x="11" y="6" width="2" height="1"/>
-            <rect class="accent" x="0" y="7" width="2" height="1"/>
-            <rect class="accent" x="11" y="7" width="2" height="1"/>
-            <rect class="engine" x="5" y="8" width="1" height="1"/>
-            <rect class="engine" x="7" y="8" width="1" height="1"/>
+            <rect class="hull-dark" x="4" y="7" width="5" height="1"/>
+            <rect class="hull" x="4" y="8" width="5" height="1"/>
+            <rect class="accent" x="3" y="9" width="1" height="1"/>
+            <rect class="hull" x="4" y="9" width="5" height="1"/>
+            <rect class="accent" x="9" y="9" width="1" height="1"/>
+            <rect class="accent" x="2" y="10" width="2" height="1"/>
+            <rect class="hull-dark" x="5" y="10" width="3" height="1"/>
+            <rect class="accent" x="9" y="10" width="2" height="1"/>
+            <rect class="engine" x="5" y="11" width="1" height="1"/>
+            <rect class="engine" x="7" y="11" width="1" height="1"/>
           </svg>
         </div>
         <span class="ship-bolt" style="animation-delay:.6s"></span>
       </div>
       <div class="ship-deco ship-left-2" aria-hidden="true">
         <div class="ship-tilt">
-          <svg viewBox="0 0 13 9" shape-rendering="crispEdges">
+          <svg viewBox="0 0 13 12" shape-rendering="crispEdges">
             <rect class="hull" x="6" y="0" width="1" height="1"/>
             <rect class="hull" x="5" y="1" width="3" height="1"/>
             <rect class="cockpit" x="5" y="2" width="3" height="1"/>
@@ -526,14 +525,18 @@
             <rect class="hull-dark" x="3" y="4" width="7" height="1"/>
             <rect class="hull" x="0" y="5" width="13" height="1"/>
             <rect class="accent" x="0" y="6" width="2" height="1"/>
-            <rect class="hull-dark" x="2" y="6" width="3" height="1"/>
-            <rect class="hull-dark" x="5" y="6" width="3" height="1"/>
-            <rect class="hull-dark" x="8" y="6" width="3" height="1"/>
+            <rect class="hull" x="2" y="6" width="9" height="1"/>
             <rect class="accent" x="11" y="6" width="2" height="1"/>
-            <rect class="accent" x="0" y="7" width="2" height="1"/>
-            <rect class="accent" x="11" y="7" width="2" height="1"/>
-            <rect class="engine" x="5" y="8" width="1" height="1"/>
-            <rect class="engine" x="7" y="8" width="1" height="1"/>
+            <rect class="hull-dark" x="4" y="7" width="5" height="1"/>
+            <rect class="hull" x="4" y="8" width="5" height="1"/>
+            <rect class="accent" x="3" y="9" width="1" height="1"/>
+            <rect class="hull" x="4" y="9" width="5" height="1"/>
+            <rect class="accent" x="9" y="9" width="1" height="1"/>
+            <rect class="accent" x="2" y="10" width="2" height="1"/>
+            <rect class="hull-dark" x="5" y="10" width="3" height="1"/>
+            <rect class="accent" x="9" y="10" width="2" height="1"/>
+            <rect class="engine" x="5" y="11" width="1" height="1"/>
+            <rect class="engine" x="7" y="11" width="1" height="1"/>
           </svg>
         </div>
         <span class="ship-bolt" style="animation-delay:1.05s"></span>
@@ -588,11 +591,9 @@
         <rect class="b" x="4" y="6" width="3" height="1"/>
         <rect class="b" x="4" y="7" width="2" height="1"/>
       </svg>
-      <p class="lede">The ball never stops falling. Tap <em>to switch its color</em> — and only cross barriers that match.</p>
       <button class="arcade-btn" id="startBtn" aria-label="Start game">
         <span class="arcade-btn-face"><span class="arcade-btn-label">PLAY</span></span>
       </button>
-      <div class="hint-row"><span><span class="k">Tap</span> = switch color</span><span><span class="k">Miss</span> = game over</span></div>
     </div>
 
     <div class="screen" id="overScreen" hidden>
@@ -652,7 +653,18 @@
   var COLOR_HEX = { red: '#ef3b4a', blue: '#3b7bff' };
   var COLOR_GLOW = { red: 'rgba(239,59,74,0.55)', blue: 'rgba(59,123,255,0.55)' };
 
-  var SPEED_BASE = 175, SPEED_MAX = 550, SPEED_ACCEL = 6.0;
+  var SPEED_BASE = 175, SPEED_PLATEAU = 320, SPEED_MAX = 550;
+  var SPEED_RAMP1_END = 16, SPEED_PLATEAU_END = 25, SPEED_RAMP2_RATE = 8;
+
+  function speedForScore(s){
+    if (s <= SPEED_RAMP1_END) {
+      return SPEED_BASE + (SPEED_PLATEAU - SPEED_BASE) * (s / SPEED_RAMP1_END);
+    }
+    if (s <= SPEED_PLATEAU_END) {
+      return SPEED_PLATEAU;
+    }
+    return Math.min(SPEED_MAX, SPEED_PLATEAU + (s - SPEED_PLATEAU_END) * SPEED_RAMP2_RATE);
+  }
 
   function rand(a, b){ return a + Math.random() * (b - a); }
   function randInt(a, b){ return Math.floor(rand(a, b + 1)); }
@@ -816,7 +828,7 @@
 
   function update(dt){
     elapsed += dt;
-    speed = Math.min(SPEED_MAX, SPEED_BASE + elapsed * SPEED_ACCEL);
+    speed = speedForScore(score);
     scrollOffset += speed * dt;
 
     if (ball.switchT < 1) ball.switchT = Math.min(1, ball.switchT + dt * 7);
@@ -844,7 +856,7 @@
           scoreVal.textContent = score;
           ball.pulseT = 1;
           playPass();
-          var coinTarget = Math.floor(score / 2);
+          var coinTarget = Math.floor(score / 3);
           if (coinTarget > coinsAwardedThisRun) {
             coinsAwardedThisRun = coinTarget;
             awardCoin();
