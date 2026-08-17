@@ -118,7 +118,7 @@
   .hud{
     position:absolute;
     top:0; left:0; right:0;
-    padding: max(18px, env(safe-area-inset-top)) 20px 0;
+    padding: max(18px, env(safe-area-inset-top)) 14px 0;
     display:flex;
     align-items:flex-start;
     justify-content:flex-end;
@@ -131,7 +131,7 @@
     left:50%;
     transform:translateX(-50%);
     font-family: var(--font-pixel);
-    font-size: 46px;
+    font-size: 54px;
     line-height:1;
     text-shadow: 3px 3px 0 rgba(0,0,0,0.6);
   }
@@ -139,27 +139,27 @@
   .hud-stack{
     display:flex;
     flex-direction:column;
-    gap:11px;
+    gap:12px;
     align-items:flex-end;
-    margin-top:58px;
+    margin-top:74px;
   }
 
   .best-pill, .coin-pill{
     display:flex;
     align-items:center;
-    gap:9px;
+    gap:10px;
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.08);
-    padding: 10px 16px;
+    padding: 11px 18px;
     border-radius: 999px;
-    font-size: 15px;
+    font-size: 17px;
     font-weight:600;
     color: var(--ink-dim);
     backdrop-filter: blur(6px);
   }
-  .best-pill b{ font-family:var(--font-pixel); font-size:17px; color: var(--ink); font-weight:400; }
-  .coin-pill b{ font-family:var(--font-pixel); font-size:17px; color: var(--gold); font-weight:400; }
-  .coin-icon{ width:30px; height:25px; flex-shrink:0; }
+  .best-pill b{ font-family:var(--font-pixel); font-size:19px; color: var(--ink); font-weight:400; }
+  .coin-pill b{ font-family:var(--font-pixel); font-size:19px; color: var(--gold); font-weight:400; }
+  .coin-icon{ width:34px; height:28px; flex-shrink:0; }
   .coin-icon .outline{ fill:var(--coin-outline); }
   .coin-icon .gold{ fill:var(--gold); }
   .coin-icon .shine{ fill:var(--gold-shine); }
