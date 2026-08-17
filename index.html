@@ -967,6 +967,23 @@
       pctx.beginPath(); pctx.moveTo(-r, 0); pctx.lineTo(r, 0); pctx.stroke();
       pctx.beginPath(); pctx.moveTo(0, -r); pctx.quadraticCurveTo(-r * 0.7, 0, 0, r); pctx.stroke();
       pctx.beginPath(); pctx.moveTo(0, -r); pctx.quadraticCurveTo(r * 0.7, 0, 0, r); pctx.stroke();
+
+      var swatchRim = pctx.createRadialGradient(0, 0, r * 0.72, 0, 0, r);
+      swatchRim.addColorStop(0, 'rgba(0,0,0,0)');
+      swatchRim.addColorStop(1, 'rgba(0,0,0,0.3)');
+      pctx.fillStyle = swatchRim;
+      pctx.beginPath();
+      pctx.arc(0, 0, r, 0, Math.PI * 2);
+      pctx.fill();
+
+      var swatchSpec = pctx.createRadialGradient(-r * 0.36, -r * 0.4, 0, -r * 0.36, -r * 0.4, r * 0.3);
+      swatchSpec.addColorStop(0, 'rgba(255,255,255,0.9)');
+      swatchSpec.addColorStop(0.55, 'rgba(255,255,255,0.28)');
+      swatchSpec.addColorStop(1, 'rgba(255,255,255,0)');
+      pctx.fillStyle = swatchSpec;
+      pctx.beginPath();
+      pctx.arc(-r * 0.36, -r * 0.4, r * 0.3, 0, Math.PI * 2);
+      pctx.fill();
       pctx.restore();
     }
 
@@ -1278,13 +1295,20 @@
     ctx.save();
     ctx.translate(x, y);
 
-    ctx.beginPath();
-    ctx.arc(0, 0, r * 1.9, 0, Math.PI * 2);
-    var glow = ctx.createRadialGradient(0, 0, r * 0.3, 0, 0, r * 1.9);
-    glow.addColorStop(0, COLOR_GLOW[ball.color]);
-    glow.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = glow;
-    ctx.fill();
+    if (currentPattern === 'basketball') {
+      ctx.beginPath();
+      ctx.ellipse(0, r * 0.95, r * 0.85, r * 0.26, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0,0,0,0.32)';
+      ctx.fill();
+    } else {
+      ctx.beginPath();
+      ctx.arc(0, 0, r * 1.9, 0, Math.PI * 2);
+      var glow = ctx.createRadialGradient(0, 0, r * 0.3, 0, 0, r * 1.9);
+      glow.addColorStop(0, COLOR_GLOW[ball.color]);
+      glow.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = glow;
+      ctx.fill();
+    }
 
     ctx.beginPath();
     ctx.arc(0, 0, r, 0, Math.PI * 2);
@@ -1320,12 +1344,21 @@
       ctx.quadraticCurveTo(r * 0.7, 0, 0, r);
       ctx.stroke();
 
-      var glare = ctx.createRadialGradient(-r * 0.32, -r * 0.32, 0, -r * 0.32, -r * 0.32, r * 0.38);
-      glare.addColorStop(0, 'rgba(255,255,255,0.18)');
-      glare.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = glare;
+      var rim = ctx.createRadialGradient(0, 0, r * 0.72, 0, 0, r);
+      rim.addColorStop(0, 'rgba(0,0,0,0)');
+      rim.addColorStop(1, 'rgba(0,0,0,0.3)');
+      ctx.fillStyle = rim;
       ctx.beginPath();
-      ctx.arc(-r * 0.32, -r * 0.32, r * 0.38, 0, Math.PI * 2);
+      ctx.arc(0, 0, r, 0, Math.PI * 2);
+      ctx.fill();
+
+      var spec = ctx.createRadialGradient(-r * 0.36, -r * 0.4, 0, -r * 0.36, -r * 0.4, r * 0.3);
+      spec.addColorStop(0, 'rgba(255,255,255,0.9)');
+      spec.addColorStop(0.55, 'rgba(255,255,255,0.28)');
+      spec.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = spec;
+      ctx.beginPath();
+      ctx.arc(-r * 0.36, -r * 0.4, r * 0.3, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
     }
