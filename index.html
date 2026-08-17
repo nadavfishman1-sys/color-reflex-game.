@@ -790,7 +790,7 @@
   var STATE_START = 0, STATE_PLAY = 1, STATE_OVER = 2;
   var state = STATE_START;
 
-  var ball = { x: 0, vx: 0, color: RED, switchT: 1, pulseT: 0, radius: 16 };
+  var ball = { x: 0, vx: 0, color: RED, switchT: 1, radius: 16 };
   var barriers = [];
   var bgStreaks = [];
   var scrollOffset, elapsed, score, speed;
@@ -875,7 +875,6 @@
     scrollOffset += speed * dt;
 
     if (ball.switchT < 1) ball.switchT = Math.min(1, ball.switchT + dt * 7);
-    if (ball.pulseT > 0) ball.pulseT = Math.max(0, ball.pulseT - dt * 3.2);
 
     var by = ballScreenY();
 
@@ -897,7 +896,6 @@
         if (b.color === ball.color) {
           score++;
           scoreVal.textContent = score;
-          ball.pulseT = 1;
           playPass();
           var coinTarget = Math.floor(score / 2);
           if (coinTarget > coinsAwardedThisRun) {
@@ -986,13 +984,10 @@
   }
 
   function drawBall(x, y){
-    var pulse = 1 + ball.pulseT * 0.35;
-    var squashX = 1 - ball.pulseT * 0.12;
-    var r = ball.radius * pulse;
+    var r = ball.radius;
 
     ctx.save();
     ctx.translate(x, y);
-    ctx.scale(squashX, 1 / squashX);
 
     ctx.beginPath();
     ctx.arc(0, 0, r * 1.9, 0, Math.PI * 2);
@@ -1056,7 +1051,7 @@
   }
 
   function initGameReal(){
-    ball = { x: W / 2, color: RED, switchT: 1, pulseT: 0, radius: Math.max(14, Math.min(22, W * 0.05)) };
+    ball = { x: W / 2, color: RED, switchT: 1, radius: Math.max(14, Math.min(22, W * 0.05)) };
     barriers = [];
     scrollOffset = 0;
     elapsed = 0;
