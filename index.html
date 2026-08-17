@@ -126,10 +126,14 @@
   }
 
   .score{
+    position:absolute;
+    top: max(18px, env(safe-area-inset-top));
+    left:50%;
+    transform:translateX(-50%);
     font-family: var(--font-pixel);
-    font-size: 36px;
-    line-height:1.4;
-    text-shadow: 2px 2px 0 rgba(0,0,0,0.6);
+    font-size: 46px;
+    line-height:1;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.6);
   }
 
   .hud-stack{
@@ -137,6 +141,7 @@
     flex-direction:column;
     gap:11px;
     align-items:flex-end;
+    margin-top:58px;
   }
 
   .best-pill, .coin-pill{
@@ -431,8 +436,8 @@
     <div class="flash" id="flash"></div>
 
     <div class="hud">
+      <div class="score" id="scoreVal">0</div>
       <div class="hud-stack">
-        <div class="score" id="scoreVal">0</div>
         <div class="coin-pill" id="coinPill">
           <svg class="coin-icon" viewBox="0 0 12 10" shape-rendering="crispEdges" aria-hidden="true">
             <rect class="outline" x="4" y="0" width="4" height="1"/>
