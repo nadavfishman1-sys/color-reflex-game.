@@ -127,7 +127,7 @@
 
   .score{
     font-family: var(--font-pixel);
-    font-size: 22px;
+    font-size: 30px;
     line-height:1.4;
     text-shadow: 2px 2px 0 rgba(0,0,0,0.6);
   }
@@ -135,26 +135,26 @@
   .hud-left{
     display:flex;
     flex-direction:column;
-    gap:8px;
+    gap:10px;
     align-items:flex-start;
   }
 
   .best-pill, .coin-pill{
     display:flex;
     align-items:center;
-    gap:7px;
+    gap:8px;
     background: rgba(255,255,255,0.06);
     border: 1px solid rgba(255,255,255,0.08);
-    padding: 7px 12px;
+    padding: 9px 14px;
     border-radius: 999px;
-    font-size: 11px;
+    font-size: 13px;
     font-weight:600;
     color: var(--ink-dim);
     backdrop-filter: blur(6px);
   }
-  .best-pill b{ font-family:var(--font-pixel); font-size:11px; color: var(--ink); font-weight:400; }
-  .coin-pill b{ font-family:var(--font-pixel); font-size:11px; color: var(--gold); font-weight:400; }
-  .coin-icon{ width:22px; height:18px; flex-shrink:0; }
+  .best-pill b{ font-family:var(--font-pixel); font-size:14px; color: var(--ink); font-weight:400; }
+  .coin-pill b{ font-family:var(--font-pixel); font-size:14px; color: var(--gold); font-weight:400; }
+  .coin-icon{ width:26px; height:21px; flex-shrink:0; }
   .coin-icon .outline{ fill:var(--coin-outline); }
   .coin-icon .gold{ fill:var(--gold); }
   .coin-icon .shine{ fill:var(--gold-shine); }
@@ -211,7 +211,7 @@
   }
   .logo-line{
     font-family: var(--font-pixel);
-    font-size: 30px;
+    font-size: 38px;
     line-height:1.3;
     text-wrap: balance;
   }
@@ -236,8 +236,8 @@
 
   .ship-deco{
     position:absolute;
-    width:56px;
-    height:52px;
+    width:68px;
+    height:63px;
     pointer-events:none;
   }
   .ship-tilt{
@@ -250,11 +250,13 @@
   .ship-deco .cockpit{ fill:var(--blue-light); }
   .ship-deco .engine{ fill:var(--laser); }
   .ship-deco .accent{ fill:var(--red); }
-  .ship-right{ right:2px; top:10%; }
-  .ship-right .ship-tilt{ transform:rotate(-14deg); }
-  .ship-left-1{ left:0px; top:15%; }
+  .ship-right-1{ right:0px; top:6%; }
+  .ship-right-1 .ship-tilt{ transform:rotate(-14deg); }
+  .ship-right-2{ right:0px; top:50%; }
+  .ship-right-2 .ship-tilt{ transform:rotate(11deg); }
+  .ship-left-1{ left:0px; top:10%; }
   .ship-left-1 .ship-tilt{ transform:rotate(18deg); }
-  .ship-left-2{ left:0px; top:58%; }
+  .ship-left-2{ left:0px; top:54%; }
   .ship-left-2 .ship-tilt{ transform:rotate(-8deg); }
 
   .ship-bolt{
@@ -336,6 +338,7 @@
     transition: opacity .08s ease;
   }
   .arcade-btn:active{ transform: translate(5px, 6px); }
+  .arcade-btn.large:active{ transform: translate(6px, 7px); }
   .arcade-btn:active::after{ opacity:0; }
 
   .arcade-btn-face{
@@ -366,6 +369,11 @@
     letter-spacing:1px;
     white-space:nowrap;
   }
+
+  .arcade-btn.large{ padding:8px; }
+  .arcade-btn.large .arcade-btn-face{ padding:22px 38px; min-width:224px; }
+  .arcade-btn.large .arcade-btn-label{ font-size:18px; }
+  .arcade-btn.large::after{ transform: translate(7px, 8px); }
 
   .over-title{
     font-family: var(--font-pixel);
@@ -423,6 +431,7 @@
 
     <div class="hud">
       <div class="hud-left">
+        <div class="score" id="scoreVal">0</div>
         <div class="coin-pill" id="coinPill">
           <svg class="coin-icon" viewBox="0 0 12 10" shape-rendering="crispEdges" aria-hidden="true">
             <rect class="outline" x="4" y="0" width="4" height="1"/>
@@ -458,12 +467,11 @@
         </div>
         <div class="best-pill" id="bestPill">Best <b id="bestVal">0</b></div>
       </div>
-      <div class="score" id="scoreVal">0</div>
     </div>
     <div class="pressure-banner" id="pressureBanner">PRESSURE MODE</div>
 
     <div class="screen" id="startScreen">
-      <div class="ship-deco ship-right" aria-hidden="true">
+      <div class="ship-deco ship-right-1" aria-hidden="true">
         <div class="ship-tilt">
           <svg viewBox="0 0 13 12" shape-rendering="crispEdges">
             <rect class="hull" x="6" y="0" width="1" height="1"/>
@@ -488,6 +496,32 @@
           </svg>
         </div>
         <span class="ship-bolt" style="animation-delay:.1s"></span>
+      </div>
+      <div class="ship-deco ship-right-2" aria-hidden="true">
+        <div class="ship-tilt">
+          <svg viewBox="0 0 13 12" shape-rendering="crispEdges">
+            <rect class="hull" x="6" y="0" width="1" height="1"/>
+            <rect class="hull" x="5" y="1" width="3" height="1"/>
+            <rect class="cockpit" x="5" y="2" width="3" height="1"/>
+            <rect class="hull" x="4" y="3" width="5" height="1"/>
+            <rect class="hull-dark" x="3" y="4" width="7" height="1"/>
+            <rect class="hull" x="0" y="5" width="13" height="1"/>
+            <rect class="accent" x="0" y="6" width="2" height="1"/>
+            <rect class="hull" x="2" y="6" width="9" height="1"/>
+            <rect class="accent" x="11" y="6" width="2" height="1"/>
+            <rect class="hull-dark" x="4" y="7" width="5" height="1"/>
+            <rect class="hull" x="4" y="8" width="5" height="1"/>
+            <rect class="accent" x="3" y="9" width="1" height="1"/>
+            <rect class="hull" x="4" y="9" width="5" height="1"/>
+            <rect class="accent" x="9" y="9" width="1" height="1"/>
+            <rect class="accent" x="2" y="10" width="2" height="1"/>
+            <rect class="hull-dark" x="5" y="10" width="3" height="1"/>
+            <rect class="accent" x="9" y="10" width="2" height="1"/>
+            <rect class="engine" x="5" y="11" width="1" height="1"/>
+            <rect class="engine" x="7" y="11" width="1" height="1"/>
+          </svg>
+        </div>
+        <span class="ship-bolt" style="animation-delay:.85s"></span>
       </div>
       <div class="ship-deco ship-left-1" aria-hidden="true">
         <div class="ship-tilt">
@@ -591,7 +625,7 @@
         <rect class="b" x="4" y="6" width="3" height="1"/>
         <rect class="b" x="4" y="7" width="2" height="1"/>
       </svg>
-      <button class="arcade-btn" id="startBtn" aria-label="Start game">
+      <button class="arcade-btn large" id="startBtn" aria-label="Start game">
         <span class="arcade-btn-face"><span class="arcade-btn-label">PLAY</span></span>
       </button>
     </div>
