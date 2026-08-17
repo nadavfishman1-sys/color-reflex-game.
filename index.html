@@ -890,13 +890,33 @@
   function clamp255(v){ return Math.max(0, Math.min(255, v)); }
   function sphereGradient(gctx, hex, r){
     var c = hexToRgb(hex);
-    var light = 'rgb(' + clamp255(c.r + 40) + ',' + clamp255(c.g + 35) + ',' + clamp255(c.b + 30) + ')';
-    var dark = 'rgb(' + clamp255(c.r - 35) + ',' + clamp255(c.g - 35) + ',' + clamp255(c.b - 35) + ')';
+    var light = 'rgb(' + clamp255(c.r + 55) + ',' + clamp255(c.g + 48) + ',' + clamp255(c.b + 42) + ')';
+    var dark = 'rgb(' + clamp255(c.r - 48) + ',' + clamp255(c.g - 48) + ',' + clamp255(c.b - 48) + ')';
     var grad = gctx.createRadialGradient(-r * 0.35, -r * 0.35, r * 0.05, 0, 0, r * 1.05);
     grad.addColorStop(0, light);
     grad.addColorStop(0.55, hex);
     grad.addColorStop(1, dark);
     return grad;
+  }
+
+  var PEBBLE_DOTS = (function(){
+    var dots = [];
+    var seed = 42;
+    function prand(){ seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+    for (var i = 0; i < 46; i++) {
+      var angle = prand() * Math.PI * 2;
+      var dist = Math.sqrt(prand()) * 0.9;
+      dots.push({ x: Math.cos(angle) * dist, y: Math.sin(angle) * dist });
+    }
+    return dots;
+  })();
+  function drawPebbleTexture(gctx, r){
+    gctx.fillStyle = 'rgba(0,0,0,0.16)';
+    for (var i = 0; i < PEBBLE_DOTS.length; i++) {
+      gctx.beginPath();
+      gctx.arc(PEBBLE_DOTS[i].x * r, PEBBLE_DOTS[i].y * r, Math.max(0.6, r * 0.045), 0, Math.PI * 2);
+      gctx.fill();
+    }
   }
   function luminance(hex){
     var c = hexToRgb(hex);
@@ -960,6 +980,7 @@
       pctx.beginPath();
       pctx.arc(0, 0, r, 0, Math.PI * 2);
       pctx.clip();
+      drawPebbleTexture(pctx, r);
       pctx.strokeStyle = 'rgba(20,20,20,0.85)';
       pctx.lineWidth = Math.max(1, r * 0.15);
       pctx.lineCap = 'round';
@@ -1300,6 +1321,7 @@
       ctx.beginPath();
       ctx.arc(0, 0, r, 0, Math.PI * 2);
       ctx.clip();
+      drawPebbleTexture(ctx, r);
       ctx.strokeStyle = lineColor;
       ctx.lineWidth = Math.max(1.5, r * 0.17);
       ctx.lineCap = 'round';
