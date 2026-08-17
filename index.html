@@ -317,6 +317,79 @@
   }
   .arcade-btn.secondary .arcade-btn-label{ text-shadow: 2px 2px 0 var(--ship-dark); }
 
+  .skins-title{
+    font-family: var(--font-pixel);
+    font-size: clamp(28px, 10vw, 40px);
+    color: var(--ink);
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.5);
+    margin:0;
+  }
+
+  .skin-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    width:100%;
+    max-width:300px;
+  }
+
+  .skin-card{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    width:100%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius:16px;
+    padding:12px 16px;
+    cursor:pointer;
+    pointer-events:auto;
+  }
+  .skin-card.selected{
+    border-color: var(--gold);
+    background: rgba(255,207,63,0.1);
+  }
+  .skin-card.denied{ animation: cardDenied .3s ease; }
+  @keyframes cardDenied{
+    0%,100%{ transform:translateX(0); }
+    25%{ transform:translateX(-5px); }
+    75%{ transform:translateX(5px); }
+  }
+
+  .skin-swatch{
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    flex-shrink:0;
+    box-shadow: 0 0 10px rgba(255,255,255,0.15);
+  }
+
+  .skin-name{
+    font-family: var(--font-pixel);
+    font-size:13px;
+    color: var(--ink);
+    flex:1;
+    text-align:left;
+  }
+
+  .skin-price{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-family: var(--font-pixel);
+    font-size:13px;
+    color: var(--gold);
+    flex-shrink:0;
+  }
+  .skin-price .coin-icon{ width:18px; height:15px; }
+  .skin-status{
+    font-family: var(--font-pixel);
+    font-size:11px;
+    color: var(--ink-dim);
+    flex-shrink:0;
+  }
+  .skin-card.selected .skin-status{ color: var(--gold); }
+
   @keyframes floaty{
     0%,100%{ transform: translateY(0); }
     50%{ transform: translateY(-6px); }
@@ -423,6 +496,7 @@
     .arcade-btn, .arcade-btn::after{ transition:none; }
     .ship-bolt{ animation:none; opacity:0; }
     .coin-pill.pop{ animation:none; }
+    .skin-card.denied{ animation:none; }
   }
 </style>
 </head>
@@ -639,6 +713,47 @@
       </button>
     </div>
 
+    <div class="screen" id="skinsScreen" hidden>
+      <h1 class="skins-title">SKINS</h1>
+      <p class="menu-coins">
+        <svg class="coin-icon" viewBox="0 0 12 10" shape-rendering="crispEdges" aria-hidden="true">
+          <rect class="outline" x="4" y="0" width="4" height="1"/>
+          <rect class="outline" x="2" y="1" width="8" height="1"/>
+          <rect class="outline" x="1" y="2" width="10" height="1"/>
+          <rect class="outline" x="0" y="3" width="12" height="1"/>
+          <rect class="outline" x="0" y="4" width="12" height="1"/>
+          <rect class="outline" x="0" y="5" width="12" height="1"/>
+          <rect class="outline" x="0" y="6" width="12" height="1"/>
+          <rect class="outline" x="1" y="7" width="10" height="1"/>
+          <rect class="outline" x="2" y="8" width="8" height="1"/>
+          <rect class="outline" x="4" y="9" width="4" height="1"/>
+          <rect class="shine" x="3" y="1" width="3" height="1"/>
+          <rect class="gold" x="6" y="1" width="3" height="1"/>
+          <rect class="shine" x="2" y="2" width="4" height="1"/>
+          <rect class="gold" x="6" y="2" width="4" height="1"/>
+          <rect class="shine" x="1" y="3" width="4" height="1"/>
+          <rect class="gold" x="5" y="3" width="6" height="1"/>
+          <rect class="shine" x="1" y="4" width="3" height="1"/>
+          <rect class="gold" x="4" y="4" width="7" height="1"/>
+          <rect class="gold" x="1" y="5" width="10" height="1"/>
+          <rect class="gold" x="1" y="6" width="8" height="1"/>
+          <rect class="shadow" x="9" y="6" width="2" height="1"/>
+          <rect class="gold" x="2" y="7" width="5" height="1"/>
+          <rect class="shadow" x="7" y="7" width="3" height="1"/>
+          <rect class="gold" x="3" y="8" width="2" height="1"/>
+          <rect class="shadow" x="5" y="8" width="4" height="1"/>
+          <rect class="outline" x="4" y="2" width="4" height="6"/>
+          <rect class="shine" x="5" y="3" width="1" height="4"/>
+          <rect class="gold" x="6" y="3" width="1" height="4"/>
+        </svg>
+        <b id="skinsCoinVal">0</b>
+      </p>
+      <div class="skin-list" id="skinList"></div>
+      <button class="arcade-btn large secondary" id="skinsBackBtn">
+        <span class="arcade-btn-face"><span class="arcade-btn-label">BACK</span></span>
+      </button>
+    </div>
+
     <div class="screen" id="overScreen" hidden>
       <h1 class="over-title">GAME OVER</h1>
       <p class="lede" style="margin-top:-8px;">Wrong color</p>
@@ -665,7 +780,12 @@
   var phone = document.getElementById('phone');
   var startScreen = document.getElementById('startScreen');
   var overScreen = document.getElementById('overScreen');
+  var skinsScreen = document.getElementById('skinsScreen');
   var startBtn = document.getElementById('startBtn');
+  var skinsBtn = document.getElementById('skinsBtn');
+  var skinsBackBtn = document.getElementById('skinsBackBtn');
+  var skinList = document.getElementById('skinList');
+  var skinsCoinVal = document.getElementById('skinsCoinVal');
   var retryBtn = document.getElementById('retryBtn');
   var menuBtn = document.getElementById('menuBtn');
   var scoreVal = document.getElementById('scoreVal');
@@ -739,6 +859,103 @@
     coinPill.classList.add('pop');
     clearTimeout(coinPopTimer);
     coinPopTimer = setTimeout(function(){ coinPill.classList.remove('pop'); }, 320);
+  }
+
+  // ---------- skins ----------
+  var SKINS = [
+    { id: 'classic', name: 'CLASSIC', colorA: '#ef3b4a', colorB: '#3b7bff', price: 0 },
+    { id: 'mono', name: 'MONO', colorA: '#f5f5f0', colorB: '#2b2b30', price: 20 }
+  ];
+
+  var ownedSkins = ['classic'];
+  try {
+    var savedOwned = JSON.parse(localStorage.getItem('reflexColorSkinsOwned') || '["classic"]');
+    if (Array.isArray(savedOwned) && savedOwned.length) ownedSkins = savedOwned;
+  } catch (e) {}
+
+  var selectedSkinId = 'classic';
+  try {
+    selectedSkinId = localStorage.getItem('reflexColorSkinSelected') || 'classic';
+  } catch (e) {}
+  if (ownedSkins.indexOf(selectedSkinId) === -1) selectedSkinId = 'classic';
+
+  function hexToRgb(hex){
+    var h = hex.replace('#', '');
+    if (h.length === 3) h = h[0] + h[0] + h[1] + h[1] + h[2] + h[2];
+    var num = parseInt(h, 16);
+    return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+  }
+  function luminance(hex){
+    var c = hexToRgb(hex);
+    return 0.299 * c.r + 0.587 * c.g + 0.114 * c.b;
+  }
+  function contrastStroke(hex){
+    return luminance(hex) > 140 ? 'rgba(10,10,14,0.6)' : 'rgba(255,255,255,0.4)';
+  }
+
+  var STROKE_HEX = { red: 'rgba(5,5,6,0.55)', blue: 'rgba(5,5,6,0.55)' };
+
+  function getSkinById(id){
+    for (var i = 0; i < SKINS.length; i++) if (SKINS[i].id === id) return SKINS[i];
+    return SKINS[0];
+  }
+
+  function applySkin(skin){
+    COLOR_HEX.red = skin.colorA;
+    COLOR_HEX.blue = skin.colorB;
+    var ra = hexToRgb(skin.colorA), rb = hexToRgb(skin.colorB);
+    COLOR_GLOW.red = 'rgba(' + ra.r + ',' + ra.g + ',' + ra.b + ',0.55)';
+    COLOR_GLOW.blue = 'rgba(' + rb.r + ',' + rb.g + ',' + rb.b + ',0.55)';
+    STROKE_HEX.red = contrastStroke(skin.colorA);
+    STROKE_HEX.blue = contrastStroke(skin.colorB);
+  }
+  applySkin(getSkinById(selectedSkinId));
+
+  function renderSkinList(){
+    skinList.innerHTML = '';
+    SKINS.forEach(function(skin){
+      var owned = ownedSkins.indexOf(skin.id) !== -1;
+      var selected = skin.id === selectedSkinId;
+      var card = document.createElement('div');
+      card.className = 'skin-card' + (selected ? ' selected' : '');
+      var statusHtml = selected
+        ? '<div class="skin-status">SELECTED</div>'
+        : owned
+          ? '<div class="skin-status">OWNED</div>'
+          : '<div class="skin-price">' + skin.price + ' <svg class="coin-icon" viewBox="0 0 12 10" shape-rendering="crispEdges"><rect class="outline" x="4" y="0" width="4" height="1"/><rect class="outline" x="2" y="1" width="8" height="1"/><rect class="outline" x="1" y="2" width="10" height="1"/><rect class="outline" x="0" y="3" width="12" height="1"/><rect class="outline" x="0" y="4" width="12" height="1"/><rect class="outline" x="0" y="5" width="12" height="1"/><rect class="outline" x="0" y="6" width="12" height="1"/><rect class="outline" x="1" y="7" width="10" height="1"/><rect class="outline" x="2" y="8" width="8" height="1"/><rect class="outline" x="4" y="9" width="4" height="1"/><rect class="shine" x="3" y="1" width="3" height="1"/><rect class="gold" x="6" y="1" width="3" height="1"/><rect class="shine" x="2" y="2" width="4" height="1"/><rect class="gold" x="6" y="2" width="4" height="1"/><rect class="shine" x="1" y="3" width="4" height="1"/><rect class="gold" x="5" y="3" width="6" height="1"/><rect class="shine" x="1" y="4" width="3" height="1"/><rect class="gold" x="4" y="4" width="7" height="1"/><rect class="gold" x="1" y="5" width="10" height="1"/><rect class="gold" x="1" y="6" width="8" height="1"/><rect class="shadow" x="9" y="6" width="2" height="1"/><rect class="gold" x="2" y="7" width="5" height="1"/><rect class="shadow" x="7" y="7" width="3" height="1"/><rect class="gold" x="3" y="8" width="2" height="1"/><rect class="shadow" x="5" y="8" width="4" height="1"/><rect class="outline" x="4" y="2" width="4" height="6"/><rect class="shine" x="5" y="3" width="1" height="4"/><rect class="gold" x="6" y="3" width="1" height="4"/></svg></div>';
+      card.innerHTML =
+        '<div class="skin-swatch" style="background:conic-gradient(from 90deg, ' + skin.colorA + ' 0deg 180deg, ' + skin.colorB + ' 180deg 360deg);"></div>' +
+        '<div class="skin-name">' + skin.name + '</div>' +
+        statusHtml;
+      card.addEventListener('click', function(){
+        if (owned) {
+          selectedSkinId = skin.id;
+          try { localStorage.setItem('reflexColorSkinSelected', selectedSkinId); } catch (e) {}
+          applySkin(skin);
+          renderSkinList();
+        } else if (coins >= skin.price) {
+          coins -= skin.price;
+          ownedSkins.push(skin.id);
+          selectedSkinId = skin.id;
+          try {
+            localStorage.setItem('reflexColorSkinsOwned', JSON.stringify(ownedSkins));
+            localStorage.setItem('reflexColorSkinSelected', selectedSkinId);
+            localStorage.setItem('reflexColorCoins', String(coins));
+          } catch (e) {}
+          coinVal.textContent = coins;
+          menuCoinVal.textContent = coins;
+          skinsCoinVal.textContent = coins;
+          applySkin(skin);
+          playPass();
+          renderSkinList();
+        } else {
+          card.classList.remove('denied');
+          void card.offsetWidth;
+          card.classList.add('denied');
+        }
+      });
+      skinList.appendChild(card);
+    });
   }
 
   // ---------- audio ----------
@@ -973,6 +1190,9 @@
     var h = b.h;
     ctx.fillStyle = COLOR_HEX[b.color];
     ctx.fillRect(0, y - h / 2, W, h);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = STROKE_HEX[b.color];
+    ctx.strokeRect(0, y - h / 2, W, h);
     if (b.flipGlow > 0) {
       ctx.save();
       ctx.globalAlpha = b.flipGlow * 0.8;
@@ -1002,7 +1222,7 @@
     ctx.fillStyle = COLOR_HEX[ball.color];
     ctx.fill();
     ctx.lineWidth = 2;
-    ctx.strokeStyle = 'rgba(5,5,6,0.55)';
+    ctx.strokeStyle = STROKE_HEX[ball.color];
     ctx.stroke();
 
     ctx.restore();
@@ -1044,6 +1264,30 @@
     setTimeout(function(){
       overScreen.hidden = true;
       overScreen.classList.remove('leaving');
+      startScreen.hidden = false;
+      startScreen.classList.add('leaving');
+      requestAnimationFrame(function(){ startScreen.classList.remove('leaving'); });
+    }, 350);
+  }
+
+  function goToSkins(){
+    renderSkinList();
+    skinsCoinVal.textContent = coins;
+    startScreen.classList.add('leaving');
+    setTimeout(function(){
+      startScreen.hidden = true;
+      startScreen.classList.remove('leaving');
+      skinsScreen.hidden = false;
+      skinsScreen.classList.add('leaving');
+      requestAnimationFrame(function(){ skinsScreen.classList.remove('leaving'); });
+    }, 350);
+  }
+
+  function backToMenuFromSkins(){
+    skinsScreen.classList.add('leaving');
+    setTimeout(function(){
+      skinsScreen.hidden = true;
+      skinsScreen.classList.remove('leaving');
       startScreen.hidden = false;
       startScreen.classList.add('leaving');
       requestAnimationFrame(function(){ startScreen.classList.remove('leaving'); });
@@ -1098,6 +1342,14 @@
   menuBtn.addEventListener('click', function(e){
     e.stopPropagation();
     goToMenu();
+  });
+  skinsBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    goToSkins();
+  });
+  skinsBackBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    backToMenuFromSkins();
   });
 
   requestAnimationFrame(loop);
