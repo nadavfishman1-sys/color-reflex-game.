@@ -36,6 +36,8 @@
     --laser:#bff3ff;
     --gold:#ffcf3f;
     --gold-shine:#fff6d0;
+    --gold-shadow:#e0930f;
+    --coin-outline:#120d00;
   }
 
   *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
@@ -152,9 +154,11 @@
   }
   .best-pill b{ font-family:var(--font-pixel); font-size:11px; color: var(--ink); font-weight:400; }
   .coin-pill b{ font-family:var(--font-pixel); font-size:11px; color: var(--gold); font-weight:400; }
-  .coin-icon{ width:14px; height:14px; flex-shrink:0; }
-  .coin-icon .fill{ fill:var(--gold); }
+  .coin-icon{ width:22px; height:18px; flex-shrink:0; }
+  .coin-icon .outline{ fill:var(--coin-outline); }
+  .coin-icon .gold{ fill:var(--gold); }
   .coin-icon .shine{ fill:var(--gold-shine); }
+  .coin-icon .shadow{ fill:var(--gold-shadow); }
   .coin-pill.pop{ animation: coinPop .3s ease; }
   @keyframes coinPop{
     0%{ transform:scale(1); }
@@ -193,8 +197,7 @@
     gap:18px;
     padding: 40px 32px;
     text-align:center;
-    background: linear-gradient(180deg, rgba(5,5,6,0.4), rgba(5,5,6,0.88) 60%);
-    backdrop-filter: blur(2px);
+    background: radial-gradient(circle at 50% 20%, var(--arena-1), var(--arena-0) 70%);
     transition: opacity .35s ease, visibility .35s ease;
   }
   .screen[hidden]{ display:none; }
@@ -285,6 +288,27 @@
     font-style:normal;
     font-weight:700;
   }
+
+  .menu-coins{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin:-2px 0 0;
+    font-family: var(--font-pixel);
+    font-size:13px;
+    color: var(--gold);
+  }
+
+  .btn-group{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .arcade-btn.secondary::after{ background: var(--ship-dark); }
+  .arcade-btn.secondary .arcade-btn-face{
+    background: linear-gradient(180deg, var(--ship), var(--ship-dark) 65%);
+  }
+  .arcade-btn.secondary .arcade-btn-label{ text-shadow: 2px 2px 0 var(--ship-dark); }
 
   @keyframes floaty{
     0%,100%{ transform: translateY(0); }
@@ -409,16 +433,35 @@
     <div class="hud">
       <div class="hud-left">
         <div class="coin-pill" id="coinPill">
-          <svg class="coin-icon" viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true">
-            <rect class="fill" x="2" y="0" width="4" height="1"/>
-            <rect class="fill" x="1" y="1" width="6" height="1"/>
-            <rect class="fill" x="0" y="2" width="8" height="1"/>
-            <rect class="fill" x="0" y="3" width="8" height="1"/>
-            <rect class="fill" x="0" y="4" width="8" height="1"/>
-            <rect class="fill" x="0" y="5" width="8" height="1"/>
-            <rect class="fill" x="1" y="6" width="6" height="1"/>
-            <rect class="fill" x="2" y="7" width="4" height="1"/>
-            <rect class="shine" x="2" y="2" width="1" height="1"/>
+          <svg class="coin-icon" viewBox="0 0 12 10" shape-rendering="crispEdges" aria-hidden="true">
+            <rect class="outline" x="4" y="0" width="4" height="1"/>
+            <rect class="outline" x="2" y="1" width="8" height="1"/>
+            <rect class="outline" x="1" y="2" width="10" height="1"/>
+            <rect class="outline" x="0" y="3" width="12" height="1"/>
+            <rect class="outline" x="0" y="4" width="12" height="1"/>
+            <rect class="outline" x="0" y="5" width="12" height="1"/>
+            <rect class="outline" x="0" y="6" width="12" height="1"/>
+            <rect class="outline" x="1" y="7" width="10" height="1"/>
+            <rect class="outline" x="2" y="8" width="8" height="1"/>
+            <rect class="outline" x="4" y="9" width="4" height="1"/>
+            <rect class="shine" x="3" y="1" width="3" height="1"/>
+            <rect class="gold" x="6" y="1" width="3" height="1"/>
+            <rect class="shine" x="2" y="2" width="4" height="1"/>
+            <rect class="gold" x="6" y="2" width="4" height="1"/>
+            <rect class="shine" x="1" y="3" width="4" height="1"/>
+            <rect class="gold" x="5" y="3" width="6" height="1"/>
+            <rect class="shine" x="1" y="4" width="3" height="1"/>
+            <rect class="gold" x="4" y="4" width="7" height="1"/>
+            <rect class="gold" x="1" y="5" width="10" height="1"/>
+            <rect class="gold" x="1" y="6" width="8" height="1"/>
+            <rect class="shadow" x="9" y="6" width="2" height="1"/>
+            <rect class="gold" x="2" y="7" width="5" height="1"/>
+            <rect class="shadow" x="7" y="7" width="3" height="1"/>
+            <rect class="gold" x="3" y="8" width="2" height="1"/>
+            <rect class="shadow" x="5" y="8" width="4" height="1"/>
+            <rect class="outline" x="4" y="2" width="4" height="6"/>
+            <rect class="shine" x="5" y="3" width="1" height="4"/>
+            <rect class="gold" x="6" y="3" width="1" height="4"/>
           </svg>
           <b id="coinVal">0</b>
         </div>
@@ -500,6 +543,39 @@
         <span class="logo-line logo-blue">REFLEX</span>
       </div>
       <p class="logo-badge">ARCADE EDITION</p>
+      <p class="menu-coins" id="menuCoinRow">
+        <svg class="coin-icon" viewBox="0 0 12 10" shape-rendering="crispEdges" aria-hidden="true">
+          <rect class="outline" x="4" y="0" width="4" height="1"/>
+          <rect class="outline" x="2" y="1" width="8" height="1"/>
+          <rect class="outline" x="1" y="2" width="10" height="1"/>
+          <rect class="outline" x="0" y="3" width="12" height="1"/>
+          <rect class="outline" x="0" y="4" width="12" height="1"/>
+          <rect class="outline" x="0" y="5" width="12" height="1"/>
+          <rect class="outline" x="0" y="6" width="12" height="1"/>
+          <rect class="outline" x="1" y="7" width="10" height="1"/>
+          <rect class="outline" x="2" y="8" width="8" height="1"/>
+          <rect class="outline" x="4" y="9" width="4" height="1"/>
+          <rect class="shine" x="3" y="1" width="3" height="1"/>
+          <rect class="gold" x="6" y="1" width="3" height="1"/>
+          <rect class="shine" x="2" y="2" width="4" height="1"/>
+          <rect class="gold" x="6" y="2" width="4" height="1"/>
+          <rect class="shine" x="1" y="3" width="4" height="1"/>
+          <rect class="gold" x="5" y="3" width="6" height="1"/>
+          <rect class="shine" x="1" y="4" width="3" height="1"/>
+          <rect class="gold" x="4" y="4" width="7" height="1"/>
+          <rect class="gold" x="1" y="5" width="10" height="1"/>
+          <rect class="gold" x="1" y="6" width="8" height="1"/>
+          <rect class="shadow" x="9" y="6" width="2" height="1"/>
+          <rect class="gold" x="2" y="7" width="5" height="1"/>
+          <rect class="shadow" x="7" y="7" width="3" height="1"/>
+          <rect class="gold" x="3" y="8" width="2" height="1"/>
+          <rect class="shadow" x="5" y="8" width="4" height="1"/>
+          <rect class="outline" x="4" y="2" width="4" height="6"/>
+          <rect class="shine" x="5" y="3" width="1" height="4"/>
+          <rect class="gold" x="6" y="3" width="1" height="4"/>
+        </svg>
+        <b id="menuCoinVal">0</b>
+      </p>
       <svg class="ball-mark" viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true">
         <rect class="r" x="2" y="0" width="2" height="1"/>
         <rect class="r" x="1" y="1" width="3" height="1"/>
@@ -524,9 +600,14 @@
       <p class="lede" style="margin-top:-8px;">Wrong color</p>
       <p class="result-score" id="finalScore">0</p>
       <p class="result-best" id="bestLine">BEST <b id="bestVal2">0</b><span class="new-best" id="newBestTag" hidden>NEW BEST</span></p>
-      <button class="arcade-btn" id="retryBtn">
-        <span class="arcade-btn-face"><span class="arcade-btn-label">PLAY AGAIN</span></span>
-      </button>
+      <div class="btn-group">
+        <button class="arcade-btn" id="retryBtn">
+          <span class="arcade-btn-face"><span class="arcade-btn-label">PLAY AGAIN</span></span>
+        </button>
+        <button class="arcade-btn secondary" id="menuBtn">
+          <span class="arcade-btn-face"><span class="arcade-btn-label">MENU</span></span>
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -542,6 +623,7 @@
   var overScreen = document.getElementById('overScreen');
   var startBtn = document.getElementById('startBtn');
   var retryBtn = document.getElementById('retryBtn');
+  var menuBtn = document.getElementById('menuBtn');
   var scoreVal = document.getElementById('scoreVal');
   var bestVal = document.getElementById('bestVal');
   var bestVal2 = document.getElementById('bestVal2');
@@ -551,6 +633,7 @@
   var newBestTag = document.getElementById('newBestTag');
   var coinPill = document.getElementById('coinPill');
   var coinVal = document.getElementById('coinVal');
+  var menuCoinVal = document.getElementById('menuCoinVal');
 
   var W = 0, H = 0, DPR = 1;
   function resize(){
@@ -588,11 +671,13 @@
     coins = parseInt(localStorage.getItem('reflexColorCoins') || '0', 10) || 0;
   } catch (e) { coins = 0; }
   coinVal.textContent = coins;
+  menuCoinVal.textContent = coins;
   var coinsAwardedThisRun = 0;
   var coinPopTimer = null;
   function awardCoin(){
     coins++;
     coinVal.textContent = coins;
+    menuCoinVal.textContent = coins;
     try { localStorage.setItem('reflexColorCoins', String(coins)); } catch (e) {}
     coinPill.classList.remove('pop');
     void coinPill.offsetWidth;
@@ -902,6 +987,19 @@
     setTimeout(function(){ overScreen.hidden = true; overScreen.classList.remove('leaving'); }, 350);
   }
 
+  function goToMenu(){
+    state = STATE_START;
+    scoreVal.textContent = '0';
+    overScreen.classList.add('leaving');
+    setTimeout(function(){
+      overScreen.hidden = true;
+      overScreen.classList.remove('leaving');
+      startScreen.hidden = false;
+      startScreen.classList.add('leaving');
+      requestAnimationFrame(function(){ startScreen.classList.remove('leaving'); });
+    }, 350);
+  }
+
   function initGameReal(){
     ball = { x: W / 2, color: RED, switchT: 1, pulseT: 0, radius: Math.max(14, Math.min(22, W * 0.05)) };
     barriers = [];
@@ -946,6 +1044,10 @@
   retryBtn.addEventListener('click', function(e){
     e.stopPropagation();
     retryGame();
+  });
+  menuBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    goToMenu();
   });
 
   requestAnimationFrame(loop);
