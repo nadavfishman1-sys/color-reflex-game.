@@ -358,8 +358,8 @@
 
   .skin-swatch{
     display:block;
-    width:36px;
-    height:36px;
+    width:52px;
+    height:52px;
     border-radius:50%;
     flex-shrink:0;
     box-shadow: 0 0 10px rgba(255,255,255,0.15);
@@ -866,7 +866,7 @@
   var SKINS = [
     { id: 'classic', name: 'CLASSIC', colorA: '#ef3b4a', colorB: '#3b7bff', price: 0 },
     { id: 'toxic', name: 'TOXIC', colorA: '#e0c22a', colorB: '#2b7a42', price: 20 },
-    { id: 'hoops', name: 'BASKETBALL', colorA: '#e0722a', colorB: '#141414', price: 25, pattern: 'basketball' }
+    { id: 'hoops', name: 'BASKETBALL', colorA: '#ef7522', colorB: '#141414', price: 25, pattern: 'basketball' }
   ];
 
   var ownedSkins = ['classic'];
@@ -890,33 +890,13 @@
   function clamp255(v){ return Math.max(0, Math.min(255, v)); }
   function sphereGradient(gctx, hex, r){
     var c = hexToRgb(hex);
-    var light = 'rgb(' + clamp255(c.r + 55) + ',' + clamp255(c.g + 48) + ',' + clamp255(c.b + 42) + ')';
-    var dark = 'rgb(' + clamp255(c.r - 48) + ',' + clamp255(c.g - 48) + ',' + clamp255(c.b - 48) + ')';
-    var grad = gctx.createRadialGradient(-r * 0.35, -r * 0.35, r * 0.05, 0, 0, r * 1.05);
+    var light = 'rgb(' + clamp255(c.r + 95) + ',' + clamp255(c.g + 85) + ',' + clamp255(c.b + 75) + ')';
+    var dark = 'rgb(' + clamp255(c.r - 72) + ',' + clamp255(c.g - 72) + ',' + clamp255(c.b - 66) + ')';
+    var grad = gctx.createRadialGradient(-r * 0.4, -r * 0.4, 0, 0, 0, r * 1.1);
     grad.addColorStop(0, light);
-    grad.addColorStop(0.55, hex);
+    grad.addColorStop(0.35, hex);
     grad.addColorStop(1, dark);
     return grad;
-  }
-
-  var PEBBLE_DOTS = (function(){
-    var dots = [];
-    var seed = 42;
-    function prand(){ seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
-    for (var i = 0; i < 46; i++) {
-      var angle = prand() * Math.PI * 2;
-      var dist = Math.sqrt(prand()) * 0.9;
-      dots.push({ x: Math.cos(angle) * dist, y: Math.sin(angle) * dist });
-    }
-    return dots;
-  })();
-  function drawPebbleTexture(gctx, r){
-    gctx.fillStyle = 'rgba(0,0,0,0.16)';
-    for (var i = 0; i < PEBBLE_DOTS.length; i++) {
-      gctx.beginPath();
-      gctx.arc(PEBBLE_DOTS[i].x * r, PEBBLE_DOTS[i].y * r, Math.max(0.6, r * 0.045), 0, Math.PI * 2);
-      gctx.fill();
-    }
   }
   function luminance(hex){
     var c = hexToRgb(hex);
@@ -980,9 +960,8 @@
       pctx.beginPath();
       pctx.arc(0, 0, r, 0, Math.PI * 2);
       pctx.clip();
-      drawPebbleTexture(pctx, r);
       pctx.strokeStyle = 'rgba(20,20,20,0.85)';
-      pctx.lineWidth = Math.max(1, r * 0.15);
+      pctx.lineWidth = Math.max(1.2, r * 0.18);
       pctx.lineCap = 'round';
       pctx.beginPath(); pctx.moveTo(0, -r); pctx.lineTo(0, r); pctx.stroke();
       pctx.beginPath(); pctx.moveTo(-r, 0); pctx.lineTo(r, 0); pctx.stroke();
@@ -1013,7 +992,7 @@
           ? '<div class="skin-status">OWNED</div>'
           : '<div class="skin-price">' + skin.price + ' <svg class="coin-icon" viewBox="0 0 12 10" shape-rendering="crispEdges"><rect class="outline" x="4" y="0" width="4" height="1"/><rect class="outline" x="2" y="1" width="8" height="1"/><rect class="outline" x="1" y="2" width="10" height="1"/><rect class="outline" x="0" y="3" width="12" height="1"/><rect class="outline" x="0" y="4" width="12" height="1"/><rect class="outline" x="0" y="5" width="12" height="1"/><rect class="outline" x="0" y="6" width="12" height="1"/><rect class="outline" x="1" y="7" width="10" height="1"/><rect class="outline" x="2" y="8" width="8" height="1"/><rect class="outline" x="4" y="9" width="4" height="1"/><rect class="shine" x="3" y="1" width="3" height="1"/><rect class="gold" x="6" y="1" width="3" height="1"/><rect class="shine" x="2" y="2" width="4" height="1"/><rect class="gold" x="6" y="2" width="4" height="1"/><rect class="shine" x="1" y="3" width="4" height="1"/><rect class="gold" x="5" y="3" width="6" height="1"/><rect class="shine" x="1" y="4" width="3" height="1"/><rect class="gold" x="4" y="4" width="7" height="1"/><rect class="gold" x="1" y="5" width="10" height="1"/><rect class="gold" x="1" y="6" width="8" height="1"/><rect class="shadow" x="9" y="6" width="2" height="1"/><rect class="gold" x="2" y="7" width="5" height="1"/><rect class="shadow" x="7" y="7" width="3" height="1"/><rect class="gold" x="3" y="8" width="2" height="1"/><rect class="shadow" x="5" y="8" width="4" height="1"/><rect class="outline" x="4" y="2" width="4" height="6"/><rect class="shine" x="5" y="3" width="1" height="4"/><rect class="gold" x="6" y="3" width="1" height="4"/></svg></div>';
       card.innerHTML =
-        '<canvas class="skin-swatch" width="36" height="36"></canvas>' +
+        '<canvas class="skin-swatch" width="52" height="52"></canvas>' +
         '<div class="skin-name">' + skin.name + '</div>' +
         statusHtml;
       drawSkinSwatch(card.querySelector('.skin-swatch'), skin);
@@ -1321,9 +1300,8 @@
       ctx.beginPath();
       ctx.arc(0, 0, r, 0, Math.PI * 2);
       ctx.clip();
-      drawPebbleTexture(ctx, r);
       ctx.strokeStyle = lineColor;
-      ctx.lineWidth = Math.max(1.5, r * 0.17);
+      ctx.lineWidth = Math.max(1.8, r * 0.19);
       ctx.lineCap = 'round';
       ctx.beginPath();
       ctx.moveTo(0, -r);
