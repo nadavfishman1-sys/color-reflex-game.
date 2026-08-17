@@ -890,8 +890,8 @@
   function clamp255(v){ return Math.max(0, Math.min(255, v)); }
   function sphereGradient(gctx, hex, r){
     var c = hexToRgb(hex);
-    var light = 'rgb(' + clamp255(c.r + 75) + ',' + clamp255(c.g + 65) + ',' + clamp255(c.b + 55) + ')';
-    var dark = 'rgb(' + clamp255(c.r - 65) + ',' + clamp255(c.g - 65) + ',' + clamp255(c.b - 65) + ')';
+    var light = 'rgb(' + clamp255(c.r + 40) + ',' + clamp255(c.g + 35) + ',' + clamp255(c.b + 30) + ')';
+    var dark = 'rgb(' + clamp255(c.r - 35) + ',' + clamp255(c.g - 35) + ',' + clamp255(c.b - 35) + ')';
     var grad = gctx.createRadialGradient(-r * 0.35, -r * 0.35, r * 0.05, 0, 0, r * 1.05);
     grad.addColorStop(0, light);
     grad.addColorStop(0.55, hex);
@@ -1320,12 +1320,12 @@
       ctx.quadraticCurveTo(r * 0.7, 0, 0, r);
       ctx.stroke();
 
-      var glare = ctx.createRadialGradient(-r * 0.32, -r * 0.32, 0, -r * 0.32, -r * 0.32, r * 0.5);
-      glare.addColorStop(0, 'rgba(255,255,255,0.4)');
+      var glare = ctx.createRadialGradient(-r * 0.32, -r * 0.32, 0, -r * 0.32, -r * 0.32, r * 0.38);
+      glare.addColorStop(0, 'rgba(255,255,255,0.18)');
       glare.addColorStop(1, 'rgba(255,255,255,0)');
       ctx.fillStyle = glare;
       ctx.beginPath();
-      ctx.arc(-r * 0.32, -r * 0.32, r * 0.5, 0, Math.PI * 2);
+      ctx.arc(-r * 0.32, -r * 0.32, r * 0.38, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
     }
