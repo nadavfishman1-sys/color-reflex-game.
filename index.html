@@ -357,6 +357,7 @@
   }
 
   .skin-swatch{
+    display:block;
     width:36px;
     height:36px;
     border-radius:50%;
@@ -886,6 +887,17 @@
     var num = parseInt(h, 16);
     return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
   }
+  function clamp255(v){ return Math.max(0, Math.min(255, v)); }
+  function sphereGradient(gctx, hex, r){
+    var c = hexToRgb(hex);
+    var light = 'rgb(' + clamp255(c.r + 75) + ',' + clamp255(c.g + 65) + ',' + clamp255(c.b + 55) + ')';
+    var dark = 'rgb(' + clamp255(c.r - 65) + ',' + clamp255(c.g - 65) + ',' + clamp255(c.b - 65) + ')';
+    var grad = gctx.createRadialGradient(-r * 0.35, -r * 0.35, r * 0.05, 0, 0, r * 1.05);
+    grad.addColorStop(0, light);
+    grad.addColorStop(0.55, hex);
+    grad.addColorStop(1, dark);
+    return grad;
+  }
   function luminance(hex){
     var c = hexToRgb(hex);
     return 0.299 * c.r + 0.587 * c.g + 0.114 * c.b;
@@ -915,6 +927,58 @@
   }
   applySkin(getSkinById(selectedSkinId));
 
+  function drawSkinSwatch(canvasEl, skin){
+    var s = canvasEl.width;
+    var pctx = canvasEl.getContext('2d');
+    var r = s / 2 - 1;
+    pctx.clearRect(0, 0, s, s);
+    pctx.save();
+    pctx.translate(s / 2, s / 2);
+
+    pctx.save();
+    pctx.beginPath();
+    pctx.rect(-r, -r, r, r * 2);
+    pctx.clip();
+    pctx.beginPath();
+    pctx.arc(0, 0, r, 0, Math.PI * 2);
+    pctx.fillStyle = (skin.pattern === 'basketball') ? sphereGradient(pctx, skin.colorA, r) : skin.colorA;
+    pctx.fill();
+    pctx.restore();
+
+    pctx.save();
+    pctx.beginPath();
+    pctx.rect(0, -r, r, r * 2);
+    pctx.clip();
+    pctx.beginPath();
+    pctx.arc(0, 0, r, 0, Math.PI * 2);
+    pctx.fillStyle = (skin.pattern === 'basketball') ? sphereGradient(pctx, skin.colorB, r) : skin.colorB;
+    pctx.fill();
+    pctx.restore();
+
+    if (skin.pattern === 'basketball') {
+      pctx.save();
+      pctx.beginPath();
+      pctx.arc(0, 0, r, 0, Math.PI * 2);
+      pctx.clip();
+      pctx.strokeStyle = 'rgba(20,20,20,0.85)';
+      pctx.lineWidth = Math.max(1, r * 0.15);
+      pctx.lineCap = 'round';
+      pctx.beginPath(); pctx.moveTo(0, -r); pctx.lineTo(0, r); pctx.stroke();
+      pctx.beginPath(); pctx.moveTo(-r, 0); pctx.lineTo(r, 0); pctx.stroke();
+      pctx.beginPath(); pctx.moveTo(0, -r); pctx.quadraticCurveTo(-r * 0.7, 0, 0, r); pctx.stroke();
+      pctx.beginPath(); pctx.moveTo(0, -r); pctx.quadraticCurveTo(r * 0.7, 0, 0, r); pctx.stroke();
+      pctx.restore();
+    }
+
+    pctx.beginPath();
+    pctx.arc(0, 0, r, 0, Math.PI * 2);
+    pctx.lineWidth = 1;
+    pctx.strokeStyle = 'rgba(255,255,255,0.15)';
+    pctx.stroke();
+
+    pctx.restore();
+  }
+
   function renderSkinList(){
     skinList.innerHTML = '';
     SKINS.forEach(function(skin){
@@ -928,9 +992,10 @@
           ? '<div class="skin-status">OWNED</div>'
           : '<div class="skin-price">' + skin.price + ' <svg class="coin-icon" viewBox="0 0 12 10" shape-rendering="crispEdges"><rect class="outline" x="4" y="0" width="4" height="1"/><rect class="outline" x="2" y="1" width="8" height="1"/><rect class="outline" x="1" y="2" width="10" height="1"/><rect class="outline" x="0" y="3" width="12" height="1"/><rect class="outline" x="0" y="4" width="12" height="1"/><rect class="outline" x="0" y="5" width="12" height="1"/><rect class="outline" x="0" y="6" width="12" height="1"/><rect class="outline" x="1" y="7" width="10" height="1"/><rect class="outline" x="2" y="8" width="8" height="1"/><rect class="outline" x="4" y="9" width="4" height="1"/><rect class="shine" x="3" y="1" width="3" height="1"/><rect class="gold" x="6" y="1" width="3" height="1"/><rect class="shine" x="2" y="2" width="4" height="1"/><rect class="gold" x="6" y="2" width="4" height="1"/><rect class="shine" x="1" y="3" width="4" height="1"/><rect class="gold" x="5" y="3" width="6" height="1"/><rect class="shine" x="1" y="4" width="3" height="1"/><rect class="gold" x="4" y="4" width="7" height="1"/><rect class="gold" x="1" y="5" width="10" height="1"/><rect class="gold" x="1" y="6" width="8" height="1"/><rect class="shadow" x="9" y="6" width="2" height="1"/><rect class="gold" x="2" y="7" width="5" height="1"/><rect class="shadow" x="7" y="7" width="3" height="1"/><rect class="gold" x="3" y="8" width="2" height="1"/><rect class="shadow" x="5" y="8" width="4" height="1"/><rect class="outline" x="4" y="2" width="4" height="6"/><rect class="shine" x="5" y="3" width="1" height="4"/><rect class="gold" x="6" y="3" width="1" height="4"/></svg></div>';
       card.innerHTML =
-        '<div class="skin-swatch" style="background:conic-gradient(from 90deg, ' + skin.colorA + ' 0deg 180deg, ' + skin.colorB + ' 180deg 360deg);"></div>' +
+        '<canvas class="skin-swatch" width="36" height="36"></canvas>' +
         '<div class="skin-name">' + skin.name + '</div>' +
         statusHtml;
+      drawSkinSwatch(card.querySelector('.skin-swatch'), skin);
       card.addEventListener('click', function(){
         if (owned) {
           selectedSkinId = skin.id;
@@ -1223,7 +1288,7 @@
 
     ctx.beginPath();
     ctx.arc(0, 0, r, 0, Math.PI * 2);
-    ctx.fillStyle = COLOR_HEX[ball.color];
+    ctx.fillStyle = (currentPattern === 'basketball') ? sphereGradient(ctx, COLOR_HEX[ball.color], r) : COLOR_HEX[ball.color];
     ctx.fill();
     ctx.lineWidth = 2;
     ctx.strokeStyle = STROKE_HEX[ball.color];
@@ -1254,6 +1319,14 @@
       ctx.moveTo(0, -r);
       ctx.quadraticCurveTo(r * 0.7, 0, 0, r);
       ctx.stroke();
+
+      var glare = ctx.createRadialGradient(-r * 0.32, -r * 0.32, 0, -r * 0.32, -r * 0.32, r * 0.5);
+      glare.addColorStop(0, 'rgba(255,255,255,0.4)');
+      glare.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = glare;
+      ctx.beginPath();
+      ctx.arc(-r * 0.32, -r * 0.32, r * 0.5, 0, Math.PI * 2);
+      ctx.fill();
       ctx.restore();
     }
 
