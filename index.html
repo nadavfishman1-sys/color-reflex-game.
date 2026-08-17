@@ -865,7 +865,7 @@
   var SKINS = [
     { id: 'classic', name: 'CLASSIC', colorA: '#ef3b4a', colorB: '#3b7bff', price: 0 },
     { id: 'toxic', name: 'TOXIC', colorA: '#e0c22a', colorB: '#2b7a42', price: 20 },
-    { id: 'hoops', name: 'HOOPS', colorA: '#e0722a', colorB: '#141414', price: 25 }
+    { id: 'hoops', name: 'כדורסל', colorA: '#e0722a', colorB: '#141414', price: 25, pattern: 'basketball' }
   ];
 
   var ownedSkins = ['classic'];
@@ -901,6 +901,8 @@
     return SKINS[0];
   }
 
+  var currentPattern = null;
+
   function applySkin(skin){
     COLOR_HEX.red = skin.colorA;
     COLOR_HEX.blue = skin.colorB;
@@ -909,6 +911,7 @@
     COLOR_GLOW.blue = 'rgba(' + rb.r + ',' + rb.g + ',' + rb.b + ',0.55)';
     STROKE_HEX.red = contrastStroke(skin.colorA);
     STROKE_HEX.blue = contrastStroke(skin.colorB);
+    currentPattern = skin.pattern || null;
   }
   applySkin(getSkinById(selectedSkinId));
 
@@ -1225,6 +1228,34 @@
     ctx.lineWidth = 2;
     ctx.strokeStyle = STROKE_HEX[ball.color];
     ctx.stroke();
+
+    if (currentPattern === 'basketball') {
+      var lineColor = ball.color === RED ? COLOR_HEX.blue : COLOR_HEX.red;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(0, 0, r, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.strokeStyle = lineColor;
+      ctx.lineWidth = Math.max(1, r * 0.14);
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(0, -r);
+      ctx.lineTo(0, r);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(-r, 0);
+      ctx.lineTo(r, 0);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(0, -r);
+      ctx.quadraticCurveTo(-r * 0.7, 0, 0, r);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(0, -r);
+      ctx.quadraticCurveTo(r * 0.7, 0, 0, r);
+      ctx.stroke();
+      ctx.restore();
+    }
 
     ctx.restore();
   }
