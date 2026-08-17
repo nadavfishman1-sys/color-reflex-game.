@@ -127,7 +127,7 @@
 
   .score{
     position:absolute;
-    top: calc(max(18px, env(safe-area-inset-top)) + 120px);
+    top: max(18px, env(safe-area-inset-top));
     left:50%;
     transform:translateX(-50%);
     font-family: var(--font-pixel);
@@ -141,7 +141,7 @@
     flex-direction:column;
     gap:12px;
     align-items:flex-start;
-    margin-top:0;
+    margin-top:66px;
   }
 
   .best-pill, .coin-pill{
@@ -797,6 +797,7 @@
   var stormGroupsLeft, stormNextScore;
   var lastBarrierColor = null;
   var shakeT, flashT, lastTs;
+  var hitStopT = 0;
 
   function ballScreenY(){ return H * 0.32; }
 
@@ -870,6 +871,10 @@
   }
 
   function update(dt){
+    if (hitStopT > 0) {
+      hitStopT = Math.max(0, hitStopT - dt);
+      dt = 0;
+    }
     elapsed += dt;
     speed = speedForScore(score);
     scrollOffset += speed * dt;
@@ -898,6 +903,7 @@
           score++;
           scoreVal.textContent = score;
           ball.pulseT = 1;
+          hitStopT = 0.07;
           playPass();
           var coinTarget = Math.floor(score / 2);
           if (coinTarget > coinsAwardedThisRun) {
@@ -1066,6 +1072,7 @@
     stormNextScore = 12;
     shakeT = 0;
     flashT = 0;
+    hitStopT = 0;
     flashEl.style.opacity = 0;
     scoreVal.textContent = '0';
     lastBarrierColor = null;
