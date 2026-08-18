@@ -916,7 +916,7 @@
     if (state === STATE_START && !skinsScreen.hidden) renderSkinList();
   };
 
-  var CREEPER_PIX = 10;
+  var CREEPER_PIX = 14;
   var creeperFeatureCells = (function(){
     var cells = {};
     function block(c0, c1, r0, r1) {
@@ -924,13 +924,14 @@
         for (var col = c0; col <= c1; col++) cells[col + ',' + row] = 1;
       }
     }
-    block(2, 3, 3, 4);
-    block(6, 7, 3, 4);
-    block(2, 7, 6, 7);
-    block(2, 3, 8, 8);
-    block(6, 7, 8, 8);
+    block(3, 4, 4, 6);
+    block(9, 10, 4, 6);
+    block(3, 10, 8, 9);
+    block(3, 4, 10, 10);
+    block(9, 10, 10, 10);
     return cells;
   })();
+  var creeperBlotchShades = [1, 0.84, 1.16, 0.94, 1.08, 0.9];
   function buildCreeperFaceCanvas(baseHex){
     var c = document.createElement('canvas');
     c.width = CREEPER_PIX;
@@ -946,9 +947,12 @@
           var fl = 16 * (0.8 + rowLight * 0.35);
           r = Math.round(fl); g = Math.round(fl); b = Math.round(fl + 2);
         } else {
-          r = Math.min(255, Math.round(base.r * rowLight));
-          g = Math.min(255, Math.round(base.g * rowLight));
-          b = Math.min(255, Math.round(base.b * rowLight));
+          var sx = Math.floor(col / 2), sy = Math.floor(row / 2);
+          var variant = creeperBlotchShades[(sx * 3 + sy * 5) % creeperBlotchShades.length];
+          var mult = rowLight * variant;
+          r = Math.min(255, Math.round(base.r * mult));
+          g = Math.min(255, Math.round(base.g * mult));
+          b = Math.min(255, Math.round(base.b * mult));
         }
         cx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
         cx.fillRect(col, row, 1, 1);
