@@ -924,11 +924,18 @@
         for (var col = c0; col <= c1; col++) cells[col + ',' + row] = 1;
       }
     }
-    block(5, 6, 5, 6);
-    block(9, 10, 5, 6);
-    block(6, 9, 9, 9);
-    block(6, 7, 10, 10);
-    block(8, 9, 10, 10);
+    block(4, 5, 4, 6);
+    block(10, 11, 4, 6);
+    block(4, 6, 8, 8);
+    block(9, 11, 8, 8);
+    block(4, 6, 9, 9);
+    block(7, 8, 9, 9);
+    block(9, 11, 9, 9);
+    block(4, 6, 10, 10);
+    block(7, 8, 10, 10);
+    block(9, 11, 10, 10);
+    block(4, 6, 11, 11);
+    block(9, 11, 11, 11);
     return cells;
   })();
   function buildCreeperFaceCanvas(baseHex){
