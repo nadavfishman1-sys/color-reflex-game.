@@ -938,15 +938,17 @@
     var cx = c.getContext('2d');
     var base = hexToRgb(baseHex);
     for (var row = 0; row < CREEPER_PIX; row++) {
+      var rowLight = 1.3 - (row / (CREEPER_PIX - 1)) * 0.6;
       for (var col = 0; col < CREEPER_PIX; col++) {
         var r, g, b;
         if (creeperFeatureCells[col + ',' + row]) {
-          r = 14; g = 14; b = 16;
+          var fl = 16 * (0.8 + rowLight * 0.35);
+          r = Math.round(fl); g = Math.round(fl); b = Math.round(fl + 2);
         } else {
-          var mult = ((col * 31 + row * 17) % 11 === 0) ? 0.82 : 1;
-          r = Math.round(base.r * mult);
-          g = Math.round(base.g * mult);
-          b = Math.round(base.b * mult);
+          var mult = (((col * 31 + row * 17) % 11 === 0) ? 0.82 : 1) * rowLight;
+          r = Math.min(255, Math.round(base.r * mult));
+          g = Math.min(255, Math.round(base.g * mult));
+          b = Math.min(255, Math.round(base.b * mult));
         }
         cx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
         cx.fillRect(col, row, 1, 1);
