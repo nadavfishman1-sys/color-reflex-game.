@@ -924,28 +924,12 @@
         for (var col = c0; col <= c1; col++) cells[col + ',' + row] = 1;
       }
     }
-    block(3, 5, 4, 6);
-    block(10, 12, 4, 6);
-    block(3, 5, 9, 13);
-    block(10, 12, 9, 13);
-    block(7, 8, 9, 11);
+    block(5, 6, 5, 6);
+    block(9, 10, 5, 6);
+    block(6, 9, 9, 9);
+    block(6, 7, 10, 10);
+    block(8, 9, 10, 10);
     return cells;
-  })();
-  var creeperOutlineCells = (function(){
-    var outline = {};
-    var dirs = [[1,0],[-1,0],[0,1],[0,-1]];
-    Object.keys(creeperFeatureCells).forEach(function(key){
-      var parts = key.split(',');
-      var col = +parts[0], row = +parts[1];
-      dirs.forEach(function(d){
-        var nc = col + d[0], nr = row + d[1];
-        var nk = nc + ',' + nr;
-        if (!creeperFeatureCells[nk] && nc >= 0 && nc < CREEPER_PIX && nr >= 0 && nr < CREEPER_PIX) {
-          outline[nk] = 1;
-        }
-      });
-    });
-    return outline;
   })();
   function buildCreeperFaceCanvas(baseHex){
     var c = document.createElement('canvas');
@@ -960,11 +944,6 @@
         if (creeperFeatureCells[col + ',' + row]) {
           var fl = 16 * (0.8 + rowLight * 0.35);
           r = Math.round(fl); g = Math.round(fl); b = Math.round(fl + 2);
-        } else if (creeperOutlineCells[col + ',' + row]) {
-          var ol = 0.4 * rowLight;
-          r = Math.round(base.r * ol);
-          g = Math.round(base.g * ol);
-          b = Math.round(base.b * ol);
         } else {
           var mult = (((col * 31 + row * 17) % 11 === 0) ? 0.82 : 1) * rowLight;
           r = Math.min(255, Math.round(base.r * mult));
