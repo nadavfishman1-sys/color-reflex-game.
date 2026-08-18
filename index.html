@@ -357,12 +357,15 @@
   }
 
   .skin-swatch{
+    position:static;
+    inset:auto;
     display:block;
     width:52px;
     height:52px;
     border-radius:50%;
     flex-shrink:0;
     box-shadow: 0 0 10px rgba(255,255,255,0.15);
+    image-rendering: pixelated;
   }
 
   .skin-name{
@@ -882,14 +885,26 @@
     var bctx = basketballPixelBlack.getContext('2d');
     var srcData = octx.getImageData(0, 0, BB_PIX, BB_PIX);
     var dstData = bctx.createImageData(BB_PIX, BB_PIX);
+
+    var lumMin = 1, lumMax = 0;
+    for (var p = 0; p < srcData.data.length; p += 4) {
+      if (srcData.data[p + 3] < 10) continue;
+      var l = (srcData.data[p] * 0.299 + srcData.data[p + 1] * 0.587 + srcData.data[p + 2] * 0.114) / 255;
+      if (l < lumMin) lumMin = l;
+      if (l > lumMax) lumMax = l;
+    }
+    var lumRange = Math.max(0.05, lumMax - lumMin);
+
     for (var i = 0; i < srcData.data.length; i += 4) {
       var a = srcData.data[i + 3];
       if (a < 10) { dstData.data[i + 3] = 0; continue; }
       var lum = (srcData.data[i] * 0.299 + srcData.data[i + 1] * 0.587 + srcData.data[i + 2] * 0.114) / 255;
-      var shade = Math.round(32 + lum * 130);
+      var norm = Math.max(0, Math.min(1, (lum - lumMin) / lumRange));
+      var curved = Math.pow(norm, 0.8);
+      var shade = Math.round(10 + curved * 195);
       dstData.data[i] = shade;
       dstData.data[i + 1] = shade;
-      dstData.data[i + 2] = shade + 8;
+      dstData.data[i + 2] = Math.min(255, shade + 10);
       dstData.data[i + 3] = a;
     }
     bctx.putImageData(dstData, 0, 0);
@@ -955,8 +970,12 @@
   applySkin(getSkinById(selectedSkinId));
 
   function drawSkinSwatch(canvasEl, skin){
-    var s = canvasEl.width;
+    var s = 52;
+    var dpr = DPR || (window.devicePixelRatio || 1);
+    canvasEl.width = Math.round(s * dpr);
+    canvasEl.height = Math.round(s * dpr);
     var pctx = canvasEl.getContext('2d');
+    pctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     var r = s / 2 - 1;
     pctx.clearRect(0, 0, s, s);
     pctx.save();
