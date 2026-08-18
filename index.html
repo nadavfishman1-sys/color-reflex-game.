@@ -924,12 +924,10 @@
         for (var col = c0; col <= c1; col++) cells[col + ',' + row] = 1;
       }
     }
-    block(4, 5, 4, 6);
-    block(10, 11, 4, 6);
-    block(4, 11, 9, 9);
-    block(4, 5, 10, 12);
-    block(7, 8, 10, 12);
-    block(10, 11, 10, 12);
+    block(4, 5, 5, 6);
+    block(10, 11, 5, 6);
+    block(5, 10, 9, 10);
+    block(7, 8, 11, 11);
     return cells;
   })();
   function buildCreeperFaceCanvas(baseHex){
@@ -946,10 +944,9 @@
           var fl = 16 * (0.8 + rowLight * 0.35);
           r = Math.round(fl); g = Math.round(fl); b = Math.round(fl + 2);
         } else {
-          var mult = (((col * 31 + row * 17) % 11 === 0) ? 0.82 : 1) * rowLight;
-          r = Math.min(255, Math.round(base.r * mult));
-          g = Math.min(255, Math.round(base.g * mult));
-          b = Math.min(255, Math.round(base.b * mult));
+          r = Math.min(255, Math.round(base.r * rowLight));
+          g = Math.min(255, Math.round(base.g * rowLight));
+          b = Math.min(255, Math.round(base.b * rowLight));
         }
         cx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
         cx.fillRect(col, row, 1, 1);
