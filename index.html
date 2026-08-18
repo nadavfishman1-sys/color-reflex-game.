@@ -916,10 +916,45 @@
     if (state === STATE_START && !skinsScreen.hidden) renderSkinList();
   };
 
+  var CREEPER_PIX = 12;
+  var creeperFeatureCells = {
+    '2,3':1,'3,3':1,'2,4':1,'3,4':1,
+    '8,3':1,'9,3':1,'8,4':1,'9,4':1,
+    '3,7':1,'4,7':1,'5,7':1,'6,7':1,'7,7':1,'8,7':1,
+    '3,8':1,'4,8':1,'7,8':1,'8,8':1,
+    '3,9':1,'4,9':1,'7,9':1,'8,9':1
+  };
+  function buildCreeperFaceCanvas(baseHex){
+    var c = document.createElement('canvas');
+    c.width = CREEPER_PIX;
+    c.height = CREEPER_PIX;
+    var cx = c.getContext('2d');
+    var base = hexToRgb(baseHex);
+    for (var row = 0; row < CREEPER_PIX; row++) {
+      for (var col = 0; col < CREEPER_PIX; col++) {
+        var r, g, b;
+        if (creeperFeatureCells[col + ',' + row]) {
+          r = 16; g = 16; b = 18;
+        } else {
+          var mult = ((col * 31 + row * 17) % 7 === 0) ? 0.7 : 1;
+          r = Math.round(base.r * mult);
+          g = Math.round(base.g * mult);
+          b = Math.round(base.b * mult);
+        }
+        cx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+        cx.fillRect(col, row, 1, 1);
+      }
+    }
+    return c;
+  }
+  var creeperPixelRed = buildCreeperFaceCanvas('#d63031');
+  var creeperPixelBlue = buildCreeperFaceCanvas('#2f9bd6');
+
   var SKINS = [
     { id: 'classic', name: 'CLASSIC', colorA: '#ef3b4a', colorB: '#3b7bff', price: 0 },
     { id: 'toxic', name: 'TOXIC', colorA: '#e0c22a', colorB: '#2b7a42', price: 20 },
-    { id: 'hoops', name: 'BASKETBALL', colorA: '#ef7522', colorB: '#141414', price: 25, pattern: 'basketball' }
+    { id: 'hoops', name: 'BASKETBALL', colorA: '#ef7522', colorB: '#141414', price: 25, pattern: 'basketball' },
+    { id: 'creeper', name: 'CREEPER', colorA: '#d63031', colorB: '#2f9bd6', price: 100, pattern: 'creeper' }
   ];
 
   var ownedSkins = ['classic'];
@@ -995,6 +1030,22 @@
       pctx.rect(0, -r, r, r * 2);
       pctx.clip();
       pctx.drawImage(basketballPixelBlack, -r, -r, r * 2, r * 2);
+      pctx.restore();
+      pctx.imageSmoothingEnabled = true;
+    } else if (skin.pattern === 'creeper') {
+      pctx.imageSmoothingEnabled = false;
+      pctx.save();
+      pctx.beginPath();
+      pctx.rect(-r, -r, r, r * 2);
+      pctx.clip();
+      pctx.drawImage(creeperPixelRed, -r, -r, r * 2, r * 2);
+      pctx.restore();
+
+      pctx.save();
+      pctx.beginPath();
+      pctx.rect(0, -r, r, r * 2);
+      pctx.clip();
+      pctx.drawImage(creeperPixelBlue, -r, -r, r * 2, r * 2);
       pctx.restore();
       pctx.imageSmoothingEnabled = true;
     } else {
@@ -1327,7 +1378,7 @@
     ctx.save();
     ctx.translate(x, y);
 
-    if (currentPattern === 'basketball') {
+    if (currentPattern === 'basketball' || currentPattern === 'creeper') {
       ctx.beginPath();
       ctx.ellipse(0, r * 0.95, r * 0.85, r * 0.26, 0, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(0,0,0,0.32)';
@@ -1350,6 +1401,21 @@
       ctx.clip();
       ctx.imageSmoothingEnabled = false;
       ctx.drawImage(bbSrc, -r, -r, r * 2, r * 2);
+      ctx.imageSmoothingEnabled = true;
+      ctx.restore();
+      ctx.beginPath();
+      ctx.arc(0, 0, r, 0, Math.PI * 2);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+      ctx.stroke();
+    } else if (currentPattern === 'creeper') {
+      var crSrc = (ball.color === BLUE) ? creeperPixelBlue : creeperPixelRed;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(0, 0, r, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(crSrc, -r, -r, r * 2, r * 2);
       ctx.imageSmoothingEnabled = true;
       ctx.restore();
       ctx.beginPath();
