@@ -916,6 +916,62 @@
     if (state === STATE_START && !skinsScreen.hidden) renderSkinList();
   };
 
+  var SOCCER_SVG = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500" viewBox="-2500 -2500 5000 5000"><g stroke="#000" stroke-width="24"><circle fill="#fff" r="2376"/><path fill="none" d="m-1643-1716 155 158m-550 2364c231 231 538 195 826 202m-524-2040c-491 351-610 1064-592 1060m1216-1008c-51 373 84 783 364 1220m-107-2289c157-157 466-267 873-329m-528 4112c-50 132-37 315-8 510m62-3883c282 32 792 74 1196 303m-404 2644c310 173 649 247 1060 180m-340-2008c-242 334-534 645-872 936m1109-2119c-111-207-296-375-499-534m1146 1281c100 3 197 44 290 141m-438 495c158 297 181 718 204 1140"/></g><path fill="#000" d="m-1624-1700c243-153 498-303 856-424 141 117 253 307 372 492-288 275-562 544-724 756-274-25-410-2-740-60 3-244 84-499 236-764zm2904-40c271 248 537 498 724 788-55 262-105 553-180 704-234-35-536-125-820-200-138-357-231-625-340-924 210-156 417-296 616-368zm-3273 3033a2376 2376 0 0 1-378-1392l59-7c54 342 124 674 311 928-36 179-2 323 51 458zm1197-1125c365 60 717 120 1060 180 106 333 120 667 156 1000-263 218-625 287-944 420-372-240-523-508-736-768 122-281 257-561 464-832zm3013 678a2376 2376 0 0 1-925 1147l-116-5c84-127 114-297 118-488 232-111 464-463 696-772 86 30 159 72 227 118zm-2287 1527a2376 2376 0 0 1-993-251c199 74 367 143 542 83 53 75 176 134 451 168z"/></svg>';
+  var soccerImg = new Image();
+  soccerImg.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(SOCCER_SVG);
+  var SC_PIX = 24;
+  var soccerPixelRed = document.createElement('canvas');
+  soccerPixelRed.width = SC_PIX;
+  soccerPixelRed.height = SC_PIX;
+  var soccerPixelBlue = document.createElement('canvas');
+  soccerPixelBlue.width = SC_PIX;
+  soccerPixelBlue.height = SC_PIX;
+  var soccerPixelsReady = false;
+
+  function buildSoccerPixels(){
+    var tmp = document.createElement('canvas');
+    tmp.width = SC_PIX;
+    tmp.height = SC_PIX;
+    var tctx = tmp.getContext('2d');
+    tctx.imageSmoothingEnabled = true;
+    tctx.drawImage(soccerImg, 0, 0, SC_PIX, SC_PIX);
+    var srcData = tctx.getImageData(0, 0, SC_PIX, SC_PIX);
+
+    var lumMin = 1, lumMax = 0;
+    for (var p = 0; p < srcData.data.length; p += 4) {
+      if (srcData.data[p + 3] < 10) continue;
+      var l = (srcData.data[p] * 0.299 + srcData.data[p + 1] * 0.587 + srcData.data[p + 2] * 0.114) / 255;
+      if (l < lumMin) lumMin = l;
+      if (l > lumMax) lumMax = l;
+    }
+    var lumRange = Math.max(0.05, lumMax - lumMin);
+
+    var rctx = soccerPixelRed.getContext('2d');
+    var bctx = soccerPixelBlue.getContext('2d');
+    var rData = rctx.createImageData(SC_PIX, SC_PIX);
+    var bData = bctx.createImageData(SC_PIX, SC_PIX);
+    for (var i = 0; i < srcData.data.length; i += 4) {
+      var a = srcData.data[i + 3];
+      if (a < 10) { rData.data[i + 3] = 0; bData.data[i + 3] = 0; continue; }
+      var lum = (srcData.data[i] * 0.299 + srcData.data[i + 1] * 0.587 + srcData.data[i + 2] * 0.114) / 255;
+      var wShade = Math.round(28 + lum * 220);
+      rData.data[i] = wShade; rData.data[i + 1] = wShade; rData.data[i + 2] = wShade;
+      rData.data[i + 3] = a;
+      var norm = Math.max(0, Math.min(1, (lum - lumMin) / lumRange));
+      var curved = Math.pow(norm, 0.8);
+      var bShade = Math.round(8 + curved * 68);
+      bData.data[i] = bShade; bData.data[i + 1] = bShade; bData.data[i + 2] = Math.min(255, bShade + 6);
+      bData.data[i + 3] = a;
+    }
+    rctx.putImageData(rData, 0, 0);
+    bctx.putImageData(bData, 0, 0);
+    soccerPixelsReady = true;
+  }
+  soccerImg.onload = function(){
+    buildSoccerPixels();
+    if (state === STATE_START && !skinsScreen.hidden) renderSkinList();
+  };
+
   var CREEPER_PIX = 14;
   var creeperFeatureCells = (function(){
     var cells = {};
@@ -968,7 +1024,8 @@
     { id: 'classic', name: 'CLASSIC', colorA: '#ef3b4a', colorB: '#3b7bff', price: 0 },
     { id: 'toxic', name: 'TOXIC', colorA: '#e0c22a', colorB: '#2b7a42', price: 20 },
     { id: 'hoops', name: 'BASKETBALL', colorA: '#ef7522', colorB: '#141414', price: 25, pattern: 'basketball' },
-    { id: 'creeper', name: 'CREEPER', colorA: '#e6393f', colorB: '#2ba6e0', price: 1000000000, pattern: 'creeper' }
+    { id: 'creeper', name: 'CREEPER', colorA: '#e6393f', colorB: '#2ba6e0', price: 1000000000, pattern: 'creeper' },
+    { id: 'soccer', name: 'SOCCER', colorA: '#f0f0f0', colorB: '#161616', price: 25, pattern: 'soccer' }
   ];
 
   var ownedSkins = ['classic'];
@@ -1060,6 +1117,22 @@
       pctx.rect(0, -r, r, r * 2);
       pctx.clip();
       pctx.drawImage(creeperPixelBlue, -r, -r, r * 2, r * 2);
+      pctx.restore();
+      pctx.imageSmoothingEnabled = true;
+    } else if (skin.pattern === 'soccer') {
+      pctx.imageSmoothingEnabled = false;
+      pctx.save();
+      pctx.beginPath();
+      pctx.rect(-r, -r, r, r * 2);
+      pctx.clip();
+      pctx.drawImage(soccerPixelRed, -r, -r, r * 2, r * 2);
+      pctx.restore();
+
+      pctx.save();
+      pctx.beginPath();
+      pctx.rect(0, -r, r, r * 2);
+      pctx.clip();
+      pctx.drawImage(soccerPixelBlue, -r, -r, r * 2, r * 2);
       pctx.restore();
       pctx.imageSmoothingEnabled = true;
     } else {
@@ -1392,7 +1465,7 @@
     ctx.save();
     ctx.translate(x, y);
 
-    if (currentPattern === 'basketball' || currentPattern === 'creeper') {
+    if (currentPattern === 'basketball' || currentPattern === 'creeper' || currentPattern === 'soccer') {
       ctx.beginPath();
       ctx.ellipse(0, r * 0.95, r * 0.85, r * 0.26, 0, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(0,0,0,0.32)';
@@ -1430,6 +1503,21 @@
       ctx.clip();
       ctx.imageSmoothingEnabled = false;
       ctx.drawImage(crSrc, -r, -r, r * 2, r * 2);
+      ctx.imageSmoothingEnabled = true;
+      ctx.restore();
+      ctx.beginPath();
+      ctx.arc(0, 0, r, 0, Math.PI * 2);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+      ctx.stroke();
+    } else if (currentPattern === 'soccer' && soccerPixelsReady) {
+      var scSrc = (ball.color === BLUE) ? soccerPixelBlue : soccerPixelRed;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(0, 0, r, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(scSrc, -r, -r, r * 2, r * 2);
       ctx.imageSmoothingEnabled = true;
       ctx.restore();
       ctx.beginPath();
