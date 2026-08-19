@@ -959,8 +959,9 @@
       rData.data[i + 3] = a;
       var norm = Math.max(0, Math.min(1, (lum - lumMin) / lumRange));
       var curved = Math.pow(norm, 0.8);
-      var bShade = Math.round(8 + curved * 68);
-      bData.data[i] = bShade; bData.data[i + 1] = bShade; bData.data[i + 2] = Math.min(255, bShade + 6);
+      bData.data[i] = Math.round(10 + curved * 40);
+      bData.data[i + 1] = Math.round(24 + curved * 80);
+      bData.data[i + 2] = Math.round(50 + curved * 190);
       bData.data[i + 3] = a;
     }
     rctx.putImageData(rData, 0, 0);
@@ -1025,7 +1026,7 @@
     { id: 'toxic', name: 'TOXIC', colorA: '#e0c22a', colorB: '#2b7a42', price: 20 },
     { id: 'hoops', name: 'BASKETBALL', colorA: '#ef7522', colorB: '#141414', price: 25, pattern: 'basketball' },
     { id: 'creeper', name: 'CREEPER', colorA: '#e6393f', colorB: '#2ba6e0', price: 1000000000, pattern: 'creeper' },
-    { id: 'soccer', name: 'SOCCER', colorA: '#f0f0f0', colorB: '#161616', price: 25, pattern: 'soccer' }
+    { id: 'soccer', name: 'SOCCER', colorA: '#f0f0f0', colorB: '#2f7bd9', price: 25, pattern: 'soccer' }
   ];
 
   var ownedSkins = ['classic'];
