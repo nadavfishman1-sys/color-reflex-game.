@@ -1169,7 +1169,8 @@
 
   function renderSkinList(){
     skinList.innerHTML = '';
-    SKINS.forEach(function(skin){
+    var sortedSkins = SKINS.slice().sort(function(a, b){ return a.price - b.price; });
+    sortedSkins.forEach(function(skin){
       var owned = ownedSkins.indexOf(skin.id) !== -1;
       var selected = skin.id === selectedSkinId;
       var card = document.createElement('div');
